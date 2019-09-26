@@ -27,15 +27,19 @@ router.get("/", function(req, res, next) {
 router.post("/signup", function(req, res) {
   var email;
   var name;
+  var token;
   if (req.body.provider == "facebook") {
-    var token = req.body.access_token;
+    token = req.body.access_token;
     request(
-      "https://graph.facebook.com/v3.3/me?&fields=name,email&access_token=" +
+      "https://graph.facebook.com/v4.0/me?&fields=name,email&access_token=" +
         token,
       (error, response, body) => {
         var data = JSON.parse(body);
+        console.log("data" + JSON.stringify(body));
+        console.log("a:" + token);
         email = data.email;
         name = data.name;
+        token = token;
         user();
       }
     );
@@ -46,8 +50,7 @@ router.post("/signup", function(req, res) {
   function user() {
     con.query("SELECT * FROM user WHERE user.email = '" + email + "'", function(
       err,
-      rows,
-      fields
+      rows
     ) {
       if (err) throw err;
       if (rows.length == 0) {

@@ -72,10 +72,10 @@ block content
        
       window.fbAsyncInit = function() {
         FB.init({
-        appId      : '1058040531052186',
+        appId      : '782151112182807',
         cookie     : true,
         xfbml      : true,
-        version    : 'v3.3'
+        version    : 'v4.0'
         });
         FB.AppEvents.logPageView();
       };
@@ -100,7 +100,8 @@ block content
                 data:JSON.stringify({
                   "provider":'facebook',
                     "access_token": response.authResponse.accessToken,
-                    "access_expired": response.authResponse.expiresIn
+                    "access_expired": response.authResponse.expiresIn,
+                    "perms":["email"]
                 }),
                 success:function(data){
                    $.ajax({
@@ -117,8 +118,7 @@ block content
             } else {
             alert("Facebook帳號無法登入");
             }
-        })
-        
+        },{scope: 'public_profile,email'})
       }
       function showform(){
              var user=getCookie("userId")
