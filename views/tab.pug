@@ -1,18 +1,31 @@
 block tab
     #tab.col.s12
         ul.tabs.tabs-fixed-width.z-depth-2.amber.lighten-3
-            li.tab.col.s4.waves-effect.waves-light.btn
+            li.tab.col.s3.waves-effect.waves-light.btn
                 a(onclick='edit()') 
                     i.material-icons edit
                     |edit
-            li.tab.col.s4.waves-effect.waves-light.btn
+            li.tab.col.s3.waves-effect.waves-light.btn
                 a(onclick='sub()')
                     i.material-icons visibility
                     |preview
-            li.tab.col.s4.waves-effect.waves-light.btn
+            li.tab.col.s3.waves-effect.waves-light.btn
                 a(onclick='responses()')
                     i.material-icons assignment
                     |responses
+            li.tab.col.s3.waves-effect.waves-light.btn.modal-trigger
+                a(href='#share',onclick="share();return false;")
+                    i.material-icons more_vert
+                    |share
+        #share.modal
+            .modal-content
+                h1 Share it!
+                .input-field
+                    input#address.validate(type='text',disabled='disabled')
+                    label(class='active',for='address') Address
+            .modal-footer
+                a.modal-action.modal-close.waves-effect.waves-green.btn-flat(onclick='location.reload();') Close
+                        
     script.   
         document.addEventListener('DOMContentLoaded', function() {
             var elems = document.querySelectorAll('.dropdown-trigger');
@@ -25,6 +38,8 @@ block tab
             var tool = M.Tooltip.init(tooltips);
             var tabs = document.querySelectorAll('.tabs');
             var tab=M.Tabs.init(tabs)
+            var modal = document.querySelectorAll('.modal');
+            var share = M.Modal.init(modal);
            
         });
         function edit(){
@@ -47,6 +62,12 @@ block tab
                 var router=location.pathname
                 var arrRouter = router.split("/");
             window.location.replace("/data/show/"+arrRouter[3])
+        }
+        function share(){
+            var router=location.pathname
+            var arrRouter = router.split("/");
+            document.getElementById('address').value=location.protocol+location.hostname+"/users/uploadform/"+arrRouter[3]
+            M.updateTextFields();
         }
 
         

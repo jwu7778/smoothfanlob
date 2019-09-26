@@ -30,7 +30,7 @@ CREATE TABLE `form` (
   `title` varchar(255) DEFAULT NULL,
   `description` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=86 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=89 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -39,8 +39,33 @@ CREATE TABLE `form` (
 
 LOCK TABLES `form` WRITE;
 /*!40000 ALTER TABLE `form` DISABLE KEYS */;
-INSERT INTO `form` VALUES (66,'{\"title\": \"你好誒\", \"topic\": [{\"q\": \"心情如何？\", \"type\": \"qa\"}, {\"q\": \"最適合的形容詞\", \"type\": \"radio\", \"option\": [\"開心\", \"快樂\", \"幸福\", \"傷心\"]}, {\"q\": \"早餐吃什麼\", \"type\": \"checkbox\", \"option\": [\"牛奶\", \"蛋餅\", \"豆漿\", \"飯糰\"]}, {\"q\": \"今天幾號？\", \"type\": \"date\"}], \"router\": \"41568597146610\", \"userid\": \"4\", \"description\": \"妳好\"}','41568597146610','4','你好誒','妳好'),(78,'{\"title\": \"你叫什麼名字？\", \"topic\": [{\"q\": \"你的名字\", \"type\": \"qa\"}, {\"q\": \"你的生肖\", \"type\": \"radio\", \"option\": [\"鼠\", \"牛\", \"虎\", \"兔\", \"龍\"]}, {\"q\": \"你喜歡哪個數字\", \"type\": \"checkbox\", \"option\": [\"1\", \"2\", \"3\", \"4\", \"5\", \"6\"]}, {\"q\": \"生日幾號？\", \"type\": \"date\"}], \"router\": \"41569201062341\", \"userid\": \"4\", \"description\": \"想要了解大家gfg\"}','41569201062341','4','你叫什麼名字？','想要了解大家gfg'),(83,'{\"title\": \"gg\", \"topic\": [{\"q\": \"dddddddd\", \"type\": \"qa\"}], \"router\": \"41569394712670\", \"userid\": \"4\", \"description\": \"\"}','41569394712670','4','gg',''),(84,NULL,'41569405140412','4',NULL,NULL),(85,'{\"title\": \"test\", \"topic\": [{\"q\": \"d23r23r3r23\", \"type\": \"checkbox\", \"option\": [\"\"]}], \"router\": \"41569463356862\", \"userid\": \"4\", \"description\": \"123\"}','41569463356862','4','test','123');
+INSERT INTO `form` VALUES (66,'{\"title\": \"你好誒\", \"topic\": [{\"q\": \"心情如何？\", \"type\": \"qa\"}, {\"q\": \"最適合的形容詞\", \"type\": \"radio\", \"option\": [\"開心\", \"快樂\", \"幸福\", \"傷心\"]}, {\"q\": \"早餐吃什麼\", \"type\": \"checkbox\", \"option\": [\"牛奶\", \"蛋餅\", \"豆漿\", \"飯糰\"]}, {\"q\": \"今天幾號？\", \"type\": \"date\"}], \"router\": \"41568597146610\", \"userid\": \"4\", \"description\": \"妳好\"}','41568597146610','4','你好誒','妳好'),(78,'{\"title\": \"你叫什麼名字？\", \"topic\": [{\"q\": \"你的名字\", \"type\": \"qa\"}, {\"q\": \"你的生肖\", \"type\": \"radio\", \"option\": [\"鼠\", \"牛\", \"虎\", \"兔\", \"龍\"]}, {\"q\": \"你喜歡哪個數字\", \"type\": \"checkbox\", \"option\": [\"1\", \"2\", \"3\", \"4\", \"5\", \"6\"]}, {\"q\": \"生日幾號？\", \"type\": \"date\"}], \"router\": \"41569201062341\", \"userid\": \"4\", \"description\": \"想要了解大家\"}','41569201062341','4','你叫什麼名字？','想要了解大家'),(83,'{\"title\": \"gg\", \"topic\": [{\"q\": \"dddddddd\", \"type\": \"qa\"}], \"router\": \"41569394712670\", \"userid\": \"4\", \"description\": \"\"}','41569394712670','4','gg',''),(85,'{\"title\": \"test\", \"topic\": [{\"q\": \"d23r23r3r23\", \"type\": \"checkbox\", \"option\": [\"\"]}], \"router\": \"41569463356862\", \"userid\": \"4\", \"description\": \"123\"}','41569463356862','4','test','123');
 /*!40000 ALTER TABLE `form` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `message`
+--
+
+DROP TABLE IF EXISTS `message`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+ SET character_set_client = utf8mb4 ;
+CREATE TABLE `message` (
+  `idmessage` int(11) NOT NULL AUTO_INCREMENT,
+  `router` varchar(225) DEFAULT NULL,
+  `userid` varchar(225) DEFAULT NULL,
+  `message` varchar(225) DEFAULT NULL,
+  PRIMARY KEY (`idmessage`)
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `message`
+--
+
+LOCK TABLES `message` WRITE;
+/*!40000 ALTER TABLE `message` DISABLE KEYS */;
+/*!40000 ALTER TABLE `message` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -95,7 +120,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (1,'native','aa','aa','0c35d8a893f5011a6cfe6828a079893d','1567757805996','aaa',NULL),(2,'native','qq','qq','b2b012866a39cc353ae1ef1f3d8564e7','1568077220904','qq',NULL),(3,'native','33','33','17e6c0ecc5e5fbb7d21d794ab6b26e24','1568080355005','33',NULL),(4,'native','123','123','9348fd55bcd1cd79844bc0daa961f544','1569400146770','123','big.png-1569392347583.png'),(5,'native','22','22','23ade80a46764b6ec5a689b3bb0d8ca4','1568177302765','22',NULL),(6,'native','88','88','e1bb3ad9e4ec2ecd9eda15d918d143eb','1568382506253','88',NULL),(7,'native','cc','cc','6d747f1d02c4508ce0530d1865d1b349','1568387529114','cc',NULL);
+INSERT INTO `user` VALUES (1,'native','aa','aa','0c35d8a893f5011a6cfe6828a079893d','1567757805996','aaa',NULL),(2,'native','qq','qq','b2b012866a39cc353ae1ef1f3d8564e7','1568077220904','qq',NULL),(3,'native','33','33','17e6c0ecc5e5fbb7d21d794ab6b26e24','1568080355005','33',NULL),(4,'native','123','123','bc85abb9bd42c6e33366705264f47b84','1569479338668','123','big.png-1569392347583.png'),(7,'native','cc','cc','6d747f1d02c4508ce0530d1865d1b349','1568387529114','cc',NULL);
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -108,4 +133,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-09-26 10:15:07
+-- Dump completed on 2019-09-26 16:40:18

@@ -54,6 +54,8 @@ block content
          document.getElementById("sign").style.display="none";
          document.getElementById("welcome").style.display="block"; 
          var profile=document.getElementById("profile")
+         document.cookie = "userId" + "=" +data.data.userid
+         document.cookie = "userPhoto" + "=" +data.data.photo
          document.getElementById("userid").value=data.data.userid
          document.getElementsByName("inname")[0].value=data.data.name
          document.getElementsByName("inemail")[0].value=data.data.email
@@ -251,6 +253,7 @@ block content
                         })
                     }else{
                       alert(data.title)
+                      location.reload();
                     }
                    
                   }

@@ -1,6 +1,7 @@
 extends layout
 
 block content
+    
     .container
         .fixed-action-btn
             a.btn-floating.tooltipped.btn-large.teal.darken-3.z-depth-4(data-position='left', data-tooltip='Add Question')
@@ -89,7 +90,17 @@ block content
                             a.m-auto.waves-effect.waves-light.red.lighten-4.gray-text.btn(onclick='deleteq(q)')
                                 i.material-icons.right replay
                                 | cancel
-                                         
+        .row
+            .col.s12
+                .card.lime.lighten-4
+                    .card-body
+                        h2.card-title.center Build your survey
+                        h3.card-title  1. Fill in the title and description
+                        h3.card-title  2. Press the bottom right button to add question
+                        h3.card-title  3. Share it!
+
+            
+
                        
     script.
         function getCookie(cname){

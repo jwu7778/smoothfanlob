@@ -254,6 +254,7 @@ router.post("/form", (req, res, next) => {
     router: id + time
   };
   con.query("INSERT INTO form SET ?", form, (err, rows) => {
+    if (err) throw err;
     con.query(
       "SELECT * FROM form WHERE form.id = '" + rows.insertId + "'",
       (err, row, fields) => {
@@ -270,6 +271,7 @@ router.get("/form/:router", (req, res) => {
     "SELECT * FROM form WHERE router =?",
     router,
     (err, row, fields) => {
+      if (err) throw err;
       if (!row[0].info) {
         res.render("form", { form: [] });
       } else {
