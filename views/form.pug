@@ -1,0 +1,394 @@
+extends layout
+
+block content
+    .container
+        .fixed-action-btn
+            a.btn-floating.tooltipped.btn-large.teal.darken-3.z-depth-4(data-position='left', data-tooltip='Add Question')
+                i.large.material-icons add
+            ul
+                li
+                a.btn-floating.tooltipped.cyan.darken-1.z-depth-3(data-position='left', data-tooltip='Add Date',onclick='date()')
+                    i.material-icons today
+                li
+                a.btn-floating.tooltipped.cyan.darken-2.z-depth-3(data-position='left', data-tooltip='Add Checkbox',onclick='addcb()')
+                    i.material-icons add_box
+                li
+                a.btn-floating.tooltipped.teal.darken-1.z-depth-2(data-position='left', data-tooltip='Add Radio',onclick='addmc()')
+                    i.material-icons adjust
+                li
+                a.btn-floating.tooltipped.teal.darken-1.z-depth-3(data-position='left', data-tooltip='Add Q&A',onclick='addqa()')
+                    i.material-icons question_answer
+        
+        .row
+               include tab.pug
+        .row
+            .col.s12
+                .card.yellow.lighten-5
+                    .card-body
+                        .row
+                            .input-field.col.s12
+                                input#title.validate(name='title',type='text',required='required',value=form.title)
+                                label(for='title') Title*
+                        .row
+                            .input-field.col.s12
+                                input#description.validate(type='text',required='required',value=form.description)
+                                label(for='title') Description*
+                        #q
+                            if (form.topic)
+                                -var q=0
+                                    each i in form.topic
+                                        -q=q+1
+                                            div(id='q'+q,name='question')
+                                                -var obj=JSON.stringify(i)
+                                                -var js=JSON.parse(obj)
+                                                label.float-right.text-info(onclick="deleteq(q"+q+")")
+                                                    i.small.material-icons clear
+                                                .row
+                                                    .input-field.col.s12
+                                                        input.black-text.validate(name='a'+q,type='text',value=js.q)
+                                                        label.blue-grey-text.text-darken-3(for='title') Question
+                                            
+                                                if js.type==="qa"
+                                                    .row
+                                                        .input-field.col.s12
+                                                            input.validate(type='text',disabled='disabled',name='qa')
+                                                            label(for='title') Ans
+                                                if js.type==="radio"
+                                                    .row
+                                                        form(id='a'+q)
+                                                            p
+                                                                each opt in js.option
+                                                                    label
+                                                                        input.with-gap(name='group1', type='radio',disable="disable")
+                                                                        span
+                                                                            input.validate(type='text',value=opt)
+                                                                            label Option
+                                                            label
+                                                                input.with-gap(name='group1', type='radio', disabled='disabled')
+                                                                span.text-info(onclick="optionradio(q"+q+")") Add option
+                                                if js.type==="checkbox"
+                                                    .row
+                                                        form(id='a'+q)
+                                                            p
+                                                                each opt in js.option
+                                                                    label
+                                                                        input(type='checkbox',disabled='disabled',value=opt)
+                                                                        span
+                                                                            input.validate(type='text',value=opt)
+                                                                            label Option
+                                                            label
+                                                                input(type='checkbox', disabled='disabled')
+                                                                span.text-info(onclick="optioncheckbox(q"+q+")") Add option
+                                                if js.type==="date"
+                                                    .row
+                                                        .input-field
+                                                            input.validate.datepicker(type='text',disabled='disabled',name='date')
+                                                            label(for='title') Date
+                            
+                        .row
+                            a.m-auto.waves-effect.waves-light.red.lighten-4.gray-text.btn(onclick='deleteq(q)')
+                                i.material-icons.right replay
+                                | cancel
+                                         
+                       
+    script.
+        function getCookie(cname){
+          var name = cname + "=";
+          var ca = document.cookie.split(';');
+          for(var i=0; i<ca.length; i++){
+            var c = ca[i].trim();
+                  if (c.indexOf(name)==0){
+                     return c.substring(name.length,c.length);
+                  }
+               }
+                return "";
+            }
+        var title=document.getElementsByName("title")[0]
+        var description=document.getElementById("description")
+        title.addEventListener("change",()=>submit(),false)
+        description.addEventListener("change",()=>submit(),false)
+        var input=document.getElementsByName("q")
+        for(i=0;i<input.length;i++){
+              input[i].addEventListener("change",submit(),false)
+        }
+
+    
+      function addmc(){
+          var div=addq()
+          var fragment = document.createDocumentFragment();
+                var row=document.createElement('div')
+                row.className='row'
+                var form=document.createElement('form');
+                var p=document.createElement('p');
+                var label=document.createElement('label')
+                var input=document.createElement('input');
+                input.className='with-gap';
+                input.setAttribute('name','group1')
+                input.setAttribute('type','radio')
+                input.setAttribute('disabled','disabled')
+                var span=document.createElement('span')
+                var text=document.createElement('input')
+                text.className='validate'
+                text.setAttribute('type','text')
+                span.appendChild(text)
+                var lab=document.createElement('label')
+                lab.appendChild(document.createTextNode('Option'))
+                span.appendChild(lab)
+                label.appendChild(input)
+                label.appendChild(span)
+                p.appendChild(label)
+                //a.addoption
+                var option=document.createElement('label')
+                var input1=document.createElement('input');
+                input1.className='with-gap';
+                input1.setAttribute('name','group1')
+                input1.setAttribute('type','radio')
+                input1.setAttribute('disabled','disabled')
+                var span1=document.createElement('span')
+                span1.className='text-info'
+                span1.setAttribute('onclick',"optionradio("+div.id+")")
+                span1.appendChild(document.createTextNode('Add option'))
+                option.appendChild(input1)
+                option.appendChild(span1)
+                form.appendChild(p)
+                form.appendChild(option)
+                row.appendChild(form)
+                div.appendChild(row);
+                fragment.appendChild(div)
+            document.getElementById("q").appendChild(fragment);
+        }
+      function optionradio(id){        
+            var obj=id.children[2].firstElementChild.firstElementChild;
+            var fragment = document.createDocumentFragment();
+            var label=document.createElement('label')
+            var input=document.createElement('input');
+            input.className='with-gap';
+            input.setAttribute('name','group1')
+            input.setAttribute('type','radio')
+            input.setAttribute('disabled','disabled')
+            var span=document.createElement('span')
+            var text=document.createElement('input')
+            text.className='validate'
+            text.setAttribute('type','text')
+            span.appendChild(text)
+            var lab=document.createElement('label')
+            lab.appendChild(document.createTextNode('Option'))
+            span.appendChild(lab)
+            label.appendChild(input)
+            label.appendChild(span)
+            fragment.appendChild(label)
+            obj.appendChild(fragment);
+      }
+      function optioncheckbox(id){
+          var obj=id.children[2].firstElementChild.firstElementChild;
+          var fragment = document.createDocumentFragment();
+          var label=document.createElement('label');
+                var input=document.createElement('input');
+                //checkboxId
+                input.setAttribute('type','checkbox');
+                input.setAttribute('disabled','disabled');
+                var span=document.createElement('span')
+                var input1=document.createElement('input');
+                input1.className="validate"
+                input1.setAttribute('type','text')
+                var labeli=document.createElement('label');
+                labeli.appendChild(document.createTextNode('Option'))
+                span.appendChild(input1)
+                span.appendChild(labeli)
+                label.appendChild(input)
+                label.appendChild(span)
+                fragment.appendChild(label)
+                obj.appendChild(fragment)
+      }
+      function addcb(){
+            var div=addq()
+            var fragment = document.createDocumentFragment();
+                var row=document.createElement('div')
+                row.className='row'
+                var form=document.createElement('form');
+                var p=document.createElement('p');
+                var label=document.createElement('label');
+                var input=document.createElement('input');
+                //checkboxId
+                input.setAttribute('type','checkbox');
+                input.setAttribute('disabled','disabled')
+                var span=document.createElement('span')
+                var input1=document.createElement('input');
+                input1.className="validate"
+                input1.setAttribute('type','text')
+                var labeli=document.createElement('label');
+                labeli.appendChild(document.createTextNode('Option'))
+                span.appendChild(input1)
+                span.appendChild(labeli)
+                label.appendChild(input)
+                label.appendChild(span)
+                p.appendChild(label)
+                //addcheckbox
+                var option=document.createElement('label')
+                var input1=document.createElement('input');
+                input1.setAttribute('type','checkbox')
+                input1.setAttribute('disabled','disabled')
+                var span1=document.createElement('span')
+                span1.className='text-info'
+                span1.setAttribute('onclick',"optioncheckbox("+div.id+")")
+                span1.appendChild(document.createTextNode('Add option'))
+                option.appendChild(input1)
+                option.appendChild(span1)
+                form.appendChild(p)
+                form.appendChild(option)
+                row.appendChild(form)
+                div.appendChild(row);
+                fragment.appendChild(div)
+            document.getElementById("q").appendChild(fragment);
+
+        }
+        
+      function addqa(){
+          var div=addq()
+          var fragment = document.createDocumentFragment();
+                var row= document.createElement('div');
+                row.className='row';
+                var input1= document.createElement('div');
+                input1.className='input-field col s12'
+                row.appendChild(input1);
+                var a=document.createElement('input');
+                a.className='validate'
+                a.setAttribute('name','qa');
+                a.setAttribute('type','text');
+                a.setAttribute('disabled','disabled');
+                var labela=document.createElement('label');
+                labela.setAttribute('for','a');
+                labela.appendChild(document.createTextNode('ANSR'))
+                input1.appendChild(a)
+                input1.appendChild(labela)
+                div.appendChild(row);
+                fragment.appendChild(div)
+            document.getElementById("q").appendChild(fragment);
+                
+      }   
+      function addq(){
+          var number=document.getElementsByName("question").length+1;
+          var int=parseInt(number)
+          var div=document.createElement('div');
+            div.id='q'+int;
+            div.setAttribute('name','question')
+          var row= document.createElement('div');
+                row.className='row';
+                var input= document.createElement('div');
+                input.className='input-field col s12'
+                row.appendChild(input);
+                var q=document.createElement('input');
+                q.className='validate'
+                q.setAttribute('name','q');
+                q.setAttribute('type','text');
+                q.setAttribute('required','required');
+                var labelq=document.createElement('label');
+                labelq.setAttribute('for','q');
+                labelq.appendChild(document.createTextNode('Q*'))
+                input.appendChild(q)
+                input.appendChild(labelq)
+                var delet=document.createElement('label');
+                delet.className='float-right text-info'
+                delet.setAttribute('onclick',"deleteq("+div.id+")")
+                var i=document.createElement('i');
+                i.className='small material-icons'     
+                i.appendChild(document.createTextNode('clear'))
+                delet.appendChild(i)
+                div.appendChild(delet)
+                div.appendChild(row);
+                return div;
+
+      }
+      function  deleteq(id){
+          var parent=id.parentNode
+          parent.removeChild(id)
+      }
+      function  date(){
+          var div=addq()
+          var fragment = document.createDocumentFragment();
+          var row= document.createElement('div');
+            row.className='row';
+                var input1= document.createElement('div');
+                input1.className='input-field'
+                row.appendChild(input1);
+            var date=document.createElement('input');
+            date.className='datepicker'
+            date.setAttribute('type','text')  
+            date.setAttribute('disabled','disabled') 
+            date.setAttribute('name','date')
+            var labela=document.createElement('label');
+                labela.appendChild(document.createTextNode('day'))
+          input1.appendChild(date);
+          input1.appendChild(labela);
+          div.appendChild(row)
+          fragment.appendChild(div)
+          document.getElementById("q").appendChild(fragment);
+          var date= document.querySelectorAll('.datepicker');
+        M.Datepicker.init(date);
+       }
+       function submit(){
+           var router=location.pathname
+           var arrRouter = router.split("/")
+           var form={
+               userid:getCookie("userId"),
+               router:arrRouter[3],
+               title:document.getElementsByName("title")[0].value,
+               description:document.getElementById("description").value,
+               topic:[]
+           }
+           
+           for(i=1;i<document.getElementsByName("question").length+1;i++){ 
+               
+               if(!document.getElementById("q"+i)){
+                    continue
+               }else if(document.getElementById("q"+i).children[2].children[0].children[1].getAttribute("name")===('date')){
+                   for(d=0;d<document.getElementsByName("date").length;d++){
+                       var question={
+                        q:document.getElementById("q"+i).children[1].children[0].children[0].value,
+                        type:"date"
+                        }
+                   }
+               }
+               else if(document.getElementById("q"+i).children[2].children[0].children[0].getAttribute("type")===('text')){
+                   var question={
+                   q:document.getElementById("q"+i).children[1].children[0].children[0].value,
+                   type:"qa"
+                   }
+                 
+               }else{
+                   var question={
+                   q:document.getElementById("q"+i).children[1].children[0].children[0].value,
+                   type:document.getElementById("q"+i).children[2].children[0].children[0].children[0].children[0].getAttribute("type"),
+                   option:[]
+                    }
+                    for(o=0;o<document.getElementById("q"+i).children[2].children[0].children[0].children.length;o++){
+                        var optioni=document.getElementById("q"+i).children[2].children[0].children[0].children[o].children[1].children[0].value
+                        question.option.push(optioni)
+                    }
+                   
+               }
+               form.topic.push(question)
+               
+           }
+           
+           $.ajax({
+                type: "POST",
+                dataType: "json",
+                url: '/users/save',
+                contentType: "application/json",
+                data:JSON.stringify(form),
+                success:function(data){
+                    var toastHTML = '<h6>Change saved !</h6><button class="btn-flat toast-action"><i class="material-icons">close</i></button>';
+                     M.toast({html: toastHTML,classes:'light-blue accent-4 text-darken-2 z-depth-4'})
+                       
+                  },
+                error: function (request, status, error) {
+                    alert(request.responseText);
+                     }
+              
+             })
+       }
+
+
+
+      

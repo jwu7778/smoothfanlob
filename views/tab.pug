@@ -1,0 +1,53 @@
+block tab
+    #tab.col.s12
+        ul.tabs.tabs-fixed-width.z-depth-2.amber.lighten-3
+            li.tab.col.s4.waves-effect.waves-light.btn
+                a(onclick='edit()') 
+                    i.material-icons edit
+                    |edit
+            li.tab.col.s4.waves-effect.waves-light.btn
+                a(onclick='sub()')
+                    i.material-icons visibility
+                    |preview
+            li.tab.col.s4.waves-effect.waves-light.btn
+                a(onclick='responses()')
+                    i.material-icons assignment
+                    |responses
+    script.   
+        document.addEventListener('DOMContentLoaded', function() {
+            var elems = document.querySelectorAll('.dropdown-trigger');
+            var instances = M.Dropdown.init(elems);
+            var elem = document.querySelectorAll('.fixed-action-btn');
+            var instance = M.FloatingActionButton.init(elem);
+            var date= document.querySelectorAll('.datepicker');
+            M.Datepicker.init(date);
+            var tooltips = document.querySelectorAll('.tooltipped');
+            var tool = M.Tooltip.init(tooltips);
+            var tabs = document.querySelectorAll('.tabs');
+            var tab=M.Tabs.init(tabs)
+           
+        });
+        function edit(){
+            var router=location.pathname
+            var arrRouter = router.split("/");
+            window.location.replace("/users/form/"+arrRouter[3])
+
+        }
+        function sub(){
+            var router=location.pathname
+            var arrRouter = router.split("/");
+            if(window.submit){ 
+                window.location.replace("/users/uploadform/"+arrRouter[3])
+                submit()
+            }else{
+                window.location.replace("/users/uploadform/"+arrRouter[3])
+            }
+        }
+        function responses(){
+                var router=location.pathname
+                var arrRouter = router.split("/");
+            window.location.replace("/data/show/"+arrRouter[3])
+        }
+
+        
+    

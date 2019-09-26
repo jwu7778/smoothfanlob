@@ -1,0 +1,359 @@
+extends layout
+block content
+  script.
+    function login(){
+          document.getElementById("welcome").style.display="none"
+          var access_token=getCookie("access_token");
+          if(!access_token || access_token=='-1' ){
+            document.getElementById("welcome").style.display="none"
+            alert("請先登入或註冊");
+          }else{
+            $.ajax({
+                      type: "GET",
+                      dataType: "json",
+                      url: "/users/profile/?token="+access_token,
+                      success:function(data){
+                        profile(data);
+                      
+                      }
+                })
+              }
+          }
+      function showform(){
+             var user=getCookie("userId")
+              var id={
+                id:user
+              }
+              $.ajax({
+                type: "POST",
+                dataType: "json",
+                url: '/data/showform',
+                contentType: "application/json",
+                data:JSON.stringify(id),
+                success:function(data){
+
+                  var all=document.getElementById("all")
+                  for(i=0;i<data.length;i++){
+                    var a=document.createElement('a')
+                    a.setAttribute('href',data[i].router)
+                    var span=document.createElement('span');
+                    span.appendChild(document.createTextNode(data[i].name))
+                    a.appendChild(span)
+                    all.appenfChild(all)
+                  }
+                  
+                  },
+                error: function (request, status, error) {
+                    alert(request.responseText);
+                     }
+              
+             })
+
+            }
+      function profile(data){
+         document.getElementById("sign").style.display="none";
+         document.getElementById("welcome").style.display="block"; 
+         var profile=document.getElementById("profile")
+         document.getElementById("userid").value=data.data.userid
+         document.getElementsByName("inname")[0].value=data.data.name
+         document.getElementsByName("inemail")[0].value=data.data.email
+         document.getElementsByName("inpassword")[0].value=data.data.password
+         if(!data.data.photo){
+
+         }else{
+           document.getElementById("photo").src='/user/'+data.data.photo
+         }    
+         document.getElementsByName("token")[0].value=data.data.access_token
+         M.updateTextFields();
+         alert("Welcome")
+       }
+       
+      window.fbAsyncInit = function() {
+        FB.init({
+        appId      : '1058040531052186',
+        cookie     : true,
+        xfbml      : true,
+        version    : 'v3.3'
+        });
+        FB.AppEvents.logPageView();
+      };
+      (function(d, s, id){
+      var js, fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) {return;}
+      js = d.createElement(s); 
+      js.id = id;
+      js.src = "https://connect.facebook.net/en_US/sdk.js";
+      fjs.parentNode.insertBefore(js, fjs);
+      }(document, 'script', 'facebook-jssdk'));
+      
+      function FBLogin() {    
+        FB.login(function (response) {
+            if (response.status === 'connected'){
+            
+             $.ajax({
+                type: "POST",
+                dataType: "json",
+                url: '/users/signup',
+                contentType: "application/json",
+                data:JSON.stringify({
+                  "provider":'facebook',
+                    "access_token": response.authResponse.accessToken,
+                    "access_expired": response.authResponse.expiresIn
+                }),
+                success:function(data){
+                   $.ajax({
+                    type: "GET",
+                    dataType: "json",
+                    url: "/users/profile/?token="+data,
+                    success:function(data){
+                       profile(data);
+                        }
+                      })
+                  }
+              
+             })
+            } else {
+            alert("Facebook帳號無法登入");
+            }
+        })
+        
+      }
+      function showform(){
+             var user=getCookie("userId")
+              var id={
+                id:user
+              }
+              $.ajax({
+                type: "POST",
+                dataType: "json",
+                url: '/data/showform',
+                contentType: "application/json",
+                data:JSON.stringify(id),
+                success:function(data){
+                  allform(data)
+                  },
+                error: function (request, status, error) {
+                    alert(request.responseText);
+                     }
+              
+             })
+
+            }
+      function deleteform(id){
+        var form=document.getElementById(id)
+        form.parentNode.removeChild(form)
+        
+        var router={
+          router:id
+        }
+       
+          $.ajax({
+                type: "POST",
+                dataType: "json",
+                url: '/data/deleteform',
+                contentType: "application/json",
+                data:JSON.stringify(router),
+                success:function(data){
+                  
+                  },
+                error: function (request, status, error) {
+                    alert(request.responseText);
+                     }
+              
+             })
+              
+
+
+      }
+      function allform(data){
+                  document.getElementById("all").innerHTML=''
+                  document.getElementById("all").style.display="block"
+                  document.getElementById("profile").style.display="none"
+                  document.getElementById("pic").style.display="none"
+                  var all=document.getElementById("all")
+                  for(i=0;i<data.data.length;i++){  
+                     var form= document.createElement('div')
+                     form.className='col-m4 card brown lighten-5'
+                     form.id=data.data[i].router
+                      var delet=document.createElement('label');
+                    delet.className='float-right text-info'
+                    delet.setAttribute('onclick',"deleteform("+data.data[i].router+")")
+                    var d=document.createElement('i')
+                    d.className='small material-icons'     
+                    d.appendChild(document.createTextNode('clear'))
+                    delet.appendChild(d)
+                    var a=document.createElement('a')
+                    a.setAttribute('href','/users/form/'+(data.data[i].router))
+                    a.className='btn';
+                    var span=document.createElement('span');
+                    span.appendChild(document.createTextNode(data.data[i].title))
+                    a.appendChild(span)
+                    form.appendChild(delet)
+                    form.appendChild(a)
+                    all.appendChild(form)
+                  }
+
+      }
+      function submit(){
+        var email1 =document.getElementById("email1").value;
+        var email2 =document.getElementById("email2").value;
+        var password1 =document.getElementById("password1").value;
+        var password2 =document.getElementById("password2").value;
+        var name =document.getElementById("name").value;
+      
+        if(!name){
+          $.ajax({
+                type: "POST",
+                dataType: "json",
+                url: '/users/signin',
+                contentType: "application/json",
+                data:JSON.stringify({
+                    "email": email2,
+                    "password": password2
+                }),
+                success:function(data){
+                  if(!data.data){
+                    alert("Incorrect account password!")
+                  }else{
+                    $.ajax({
+                    type: "GET",
+                    dataType: "json",
+                    url: "/users/profile/?token="+data.data.access_token,
+                    success:function(data){
+                        profile(data);
+                        }
+                      })
+                  }
+                      
+                    }
+                })
+        
+          }else{
+            $.ajax({
+                  type: "POST",
+                  dataType: "json",
+                  url: '/users/signup',
+                  contentType: "application/json",
+                  data:JSON.stringify({
+                      "email": email1,
+                      "password": password1,
+                      "name":name
+                  }),
+                  success:function(data){
+                    if(!data.title){
+                       $.ajax({
+                      type: "GET",
+                      dataType: "json",
+                      url: "/users/profile/?token="+data.data.access_token,
+                      success:function(data){
+                        profile(data);
+                      }
+                        })
+                    }else{
+                      alert(data.title)
+                    }
+                   
+                  }
+              })
+          }
+        }
+        
+  .container
+    #sign
+      .row
+        .col.md-6
+          .card.mx-auto
+            .card-content
+              h2.card-title SignUp
+              .row
+                .input-field.col.s12
+                  input#name.validate(name='name', type='text')
+                  label(for='name') Name
+              .row
+                .input-field.col.s12
+                  input#email1.validate(name='email', type='email')
+                  label(for='email') Email
+              .row
+                .input-field.col.s12
+                  input#password1.validate(name='password', type='password')
+                  label(for='password') Password
+              button.btn.btn-xs.btn-outline-success(type='button', onclick='submit()', value='signin') Signup  
+        .col.md-6
+          .card.mx-auto
+            .card-content
+              h2.card-title SignIn
+              .row
+                .input-field.col.s12
+                  input#email2.validate(name='email', type='email')
+                  label(for='email') Email
+              .row
+                .input-field.col.s12
+                  input#password2.validate(name='password', type='password')
+                  label(for='password') Password
+              button.btn.btn-xs.btn-outline-success(type='button', onclick='submit()', value='signin') Signin
+
+      .row
+        .card.mx-auto
+           .card-content
+              h1.card-title Facebook：
+              .fb-login-button(data-width='300px',data-height='100%', data-size='large', onlogin='FBLogin();',data-button-type='continue_with', data-auto-logout-link='false', data-use-continue-as='false')
+        .card.mx-auto(style="width:300px;")
+           .card-content
+              h1.card-title Google：
+    #welcome
+        .row
+          #tab.col.s12
+            ul.tabs.tabs-fixed-width.z-depth-2.deep-orange.lighten-3
+                li.tab.col.s4.waves-effect.waves-light.btn
+                    a(onclick='javascript:window.location.reload()') 
+                        i.material-icons edit
+                        |Profile
+                li.tab.col.s4.waves-effect.waves-light.btn
+                    a(onclick='showform()')
+                        i.material-icons visibility
+                        |Show All Form
+                li.tab.col.s4.waves-effect.waves-light.btn
+                    a(onclick='getuserid()')
+                        i.material-icons assignment
+                        |Add New Form
+        
+        .row
+          #profile.col-md-7
+            .card.mx-auto
+              .card-content
+                h2.card-title Profile
+                form(action='/users/picture', method='post', enctype='multipart/form-data')
+                  input(type="hidden",name='userid',id="userid")
+                  input(type="hidden",name='token')
+                  .input-field
+                      input.validate(name='inname',type='text',required='required')
+                      label(class='active',for='inname')  Name
+                  .input-field
+                      input.validate(name='inemail',type='email',disabled='disabled')
+                      label(class='active') Email
+                  .input-field
+                      input.validate(name='inpassword',type='text')
+                      label(class='active') Password
+                  .file-field.input-field
+                    .btn
+                      span Profile Photo
+                      input(type='file',name='picture')
+                    .file-path-wrapper
+                      input.file-path.validate(type='text')
+                    .row
+                      button.m-auto.btn.waves-effect.waves-light(type='submit', name='action')
+                        | Update
+                        i.material-icons.right send
+          #pic.col-md-5
+            .card.mx-auto
+              .card-content
+                h2.card-title Profile Photo
+              .card-image
+                img(src='/images/user.svg',id='photo')
+
+
+        .row
+          #all.col.s12
+  script. 
+      login()
+      

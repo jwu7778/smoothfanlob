@@ -1,0 +1,52 @@
+extends layout
+
+block banner
+    .slider
+        ul.slides
+            li
+                img(src='/images/new.png')
+                // random image
+                .caption.left-align
+                    h1 Welcome
+                   
+            li
+                img(src='https://lorempixel.com/1400/500/nature/2')
+                // random image
+                .caption.center-align
+                    h3 Left Aligned Caption
+                    h5.light.grey-text.text-lighten-3 Here&apos;s our small slogan.
+            li
+                img(src='https://lorempixel.com/580/250/nature/3')
+                // random image
+                .caption.right-align
+                    h3 Right Aligned Caption
+                    h5.light.grey-text.text-lighten-3 Here&apos;s our small slogan.
+            li
+                img(src='https://lorempixel.com/580/250/nature/4')
+                // random image
+                .caption.center-align
+                    h3 This is our big Tagline!
+                    h5.light.grey-text.text-lighten-3 Here&apos;s our small slogan.
+    script.
+        document.addEventListener('DOMContentLoaded', function() {
+            var elems = document.querySelectorAll('.slider');
+            var instances = M.Slider.init(elems);
+        });
+block content
+    .container
+        .row
+            -var p=0
+            each i in form
+                -p=p+1
+                .col-md-4
+                    .card
+                        .card-image
+                            img(src='https://lorempixel.com/200/200/nature/'+p)
+                        .card-panel.teal.lighten-2
+                            .row
+                                a(href='/message/'+i.router+'/detail')
+                                    span.card-title=i.title
+                        .card-content
+                            .row
+                                p=i.description
+

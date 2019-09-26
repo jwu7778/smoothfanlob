@@ -1,0 +1,89 @@
+extends layout
+
+block content
+    .container
+        .row
+               include tab.pug
+        .row
+            .col.s6.m6
+                ul.tabs.tabs-fixed-width.z-depth-2.blue.lighten-3
+                    li.tab.col.s3.m3.waves-effect.waves-light.btn
+                        a(onclick='responses()') 
+                            i.material-icons filter_none
+                            |summary
+                    li.tab.col.s3.m3.waves-effect.waves-light.btn
+                        a.active(onclick='individual()')
+                            i.material-icons person
+                            |individual
+        .row
+            .col.s12.m6
+                .card.blue-grey.lighten-2
+                    .card-content.white-text
+                        .row.m-auto
+                            ul.pagination
+                                li.waves-effect
+                                    a(onclick='pre('+now+','+total+')')
+                                        i.material-icons chevron_left
+                                span.card-title=now+"         of            "+total
+                                li.waves-effect
+                                    a(onclick='next('+now+','+total+')')
+                                        i.material-icons chevron_right
+                        each i in dict    
+                            -var obj=JSON.stringify(i)
+                            -var js=JSON.parse(obj)
+                                .row
+                                    .input-field.col.s12
+                                        input.black-text.validate(type='text',value=js.q,disabled='disabled')
+                                        label.blue-grey-text.text-darken-3(for='title') Question
+                            
+                                if js.type==="qa"
+                                    =console.log(js.ans)
+                                    .row
+                                        .input-field.col.s12
+                                            input.validate(type='text',name='qa',value=js.ans,disabled='disabled')
+                                            label(for='title') Ans
+                                if js.type==="radio"
+                                    .row
+                                        form
+                                            p
+                                                label
+                                                    input.with-gap(name='group1', type='radio',disabled='disabled',checked)
+                                                    span=js.ans
+                                    
+                                if js.type==="checkbox"
+                                    .row
+                                        form
+                                            p
+                                                each opt in js.ans
+                                                    label
+                                                        input(type='checkbox',disabled='disabled')
+                                                        span.black-text=opt
+                                    
+                                if js.type==="date"
+                                    .row
+                                        .input-field
+                                            input.validate.datepicker(type='text',name='date',value=js.ans,disabled='disabled')
+                                            label(for='title') Date
+                        script.  
+                            function pre(now,total){
+                                if(parseInt(now)==1){
+                                    var toastHTML = '<h6>This is first one</h6><button class="btn-flat toast-action"><i class="material-icons">close</i></button>';
+                                     M.toast({html: toastHTML,classes:'light-blue accent-4 text-darken-2 z-depth-4'})
+                                } else{
+                                    var number=parseInt(now)-1
+                                    var router=location.pathname
+                                    var arrRouter = router.split("/");
+                                    window.location.replace("/data/show/"+arrRouter[3]+"/individual/"+number)
+                                }
+                             }
+                            function next(now,total){
+                                if(parseInt(now)==total){
+                                    var toastHTML = '<h6>This is last one</h6><button class="btn-flat toast-action"><i class="material-icons">close</i></button>';
+                                     M.toast({html: toastHTML,classes:'light-blue accent-4 text-darken-2 z-depth-4'})
+                                } else{
+                                    var number=parseInt(now)+1
+                                    var router=location.pathname
+                                    var arrRouter = router.split("/");
+                                    window.location.replace("/data/show/"+arrRouter[3]+"/individual/"+number)
+                                }
+                            }

@@ -1,0 +1,148 @@
+extends layout
+
+block content
+    .container
+        .row
+               include tab.pug
+        .row
+            #card.card.indigo.lighten-5(style='width: 100rem;')
+                #cardbody.card-body
+                    .row
+                        blockquote
+                            h1=form.title
+                                
+                    .row
+                        .input-field.col.s12
+                            input.black-text.validate(type='text',value=form.description,disabled="disabled")
+                            label.blue-grey-text.text-darken-3(for='title') Description
+                    #q
+                        -var q=0
+                        each i in form.topic
+                            -q=q+1 
+                            -var obj=JSON.stringify(i)
+                            -var js=JSON.parse(obj)
+                            div(id='q'+q,name='result')
+                                .row
+                                    .input-field.col.s12
+                                        input.black-text.validate(type='text',value=js.q,disabled='disabled')
+                                        label.blue-grey-text.text-darken-3(for='title') Question
+                            
+                                if js.type==="qa"
+                                    .row
+                                        .input-field.col.s12
+                                            input.validate(type='text',name='qa')
+                                            label(for='title') Ans
+                                if js.type==="radio"
+                                    .row
+                                        form
+                                            p
+                                                each opt in js.option
+                                                    label
+                                                        input.with-gap(name='group1', type='radio',value=opt)
+                                                        span=opt
+                                if js.type==="checkbox"
+                                    .row
+                                        form
+                                            p
+                                                each opt in js.option
+                                                    label
+                                                        input(type='checkbox',value=opt)
+                                                        span=opt
+                                if js.type==="date"
+                                    .row
+                                        .input-field
+                                            input.validate.datepicker(type='text',name='date')
+                                            label(for='title') Date
+                        .row
+                        button#sub.align-middle.btn.waves-effect.waves-light.blue.lighten-2.center(type='buttom', onclick='submitresult()')
+                            | Submit
+                            i.material-icons.right send
+    script.
+        $(document).ready(function ()
+         {   var number=location.pathname.split("/")[3]
+             if(getCookie("userId")==number.substr(0,1)){
+                 document.getElementById("tab").style.display="block"
+                 document.getElementById("sub").setAttribute("disabled","disabled")
+             }else{
+                 document.getElementById("tab").style.display="none"
+             }
+         })
+        document.addEventListener('DOMContentLoaded', function() {
+            var elems = document.querySelectorAll('.dropdown-trigger');
+            var instances = M.Dropdown.init(elems);
+            var elem = document.querySelectorAll('.fixed-action-btn');
+            var instance = M.FloatingActionButton.init(elem);
+            var date= document.querySelectorAll('.datepicker');
+            M.Datepicker.init(date);
+            });
+        function clean(){  
+          var cardbody=document.getElementById("cardbody")
+          var parent=cardbody.parentNode
+          parent.removeChild(cardbody)
+          var thank=document.createElement('div')
+          thank.className='card-body'
+          thank.appendChild(document.createTextNode('We have received your reply!'))
+          document.getElementById("card").appendChild(thank)
+        }
+        function submitresult(){
+            var router=location.pathname
+            var arrRouter = router.split("/");
+            var ans={
+                router:arrRouter[3],
+                time:new Date().getTime(),
+                ans:[]
+            }
+            
+            for(i=1;i<document.getElementsByName("result").length+1;i++){
+                var result={
+                        q:document.getElementById("q"+i).children[0].children[0].children[0].value,
+                        type:'',
+                        number:i,
+                        ans:[]
+                    }
+                if(document.getElementById("q"+i).children[1].children[0].children[0].getAttribute("name")==='qa'){
+                    result.type='qa'
+                    result.ans=document.getElementById("q"+i).children[1].children[0].children[0].value
+                }else if(!document.getElementById("q"+i).children[1].children[0].children[1]){
+                    var choose=document.getElementById("q"+i).children[1].children[0].children[0].getElementsByTagName("input")
+                    var type=document.getElementById("q"+i).children[1].children[0].children[0].children[0].children[0].getAttribute("type")
+                            result.type=type
+                            if(type==='radio'){
+                                for(a=0;a<choose.length;a++){
+                                    if(choose[a].checked){
+                                        result.ans=choose[a].value
+    
+                                    }
+                                }
+                            }else if(type==='checkbox'){
+                                    for(a=0;a<choose.length;a++){
+                                        if(choose[a].checked){
+                                            result.ans.push(choose[a].value)
+                                        }
+                                }
+                            }else{
+                                continue
+                            }
+                }else if(document.getElementById("q"+i).children[1].children[0].children[1].getAttribute("name")==='date'){
+                    result.type='date'
+                    result.ans=document.getElementById("q"+i).children[1].children[0].children[1].value
+                }
+                ans.ans.push(result)
+            }
+                $.ajax({
+                    type: "POST",
+                    url: '/data/store',
+                    contentType: "application/json",
+                    data:JSON.stringify(ans),
+                    success:function(data){
+                        clean()
+                    },
+                    error: function (request, status, error) {
+                        console.log(error);
+                        console.log(status);
+                        }
+              
+             })
+        }
+        
+        

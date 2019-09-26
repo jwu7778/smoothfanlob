@@ -1,0 +1,130 @@
+extends layout
+
+block content
+    script(src='https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.min.js')
+    .container
+        .row
+               include tab.pug
+        .row
+            .col.s6.m6
+                ul.tabs.tabs-fixed-width.z-depth-2.blue.lighten-3
+                    li.tab.col.s3.m3.waves-effect.waves-light.btn
+                        a(onclick='response()') 
+                            i.material-icons filter_none
+                            |summary
+                    li.tab.col.s3.m3.waves-effect.waves-light.btn
+                        a(onclick='individual()')
+                            i.material-icons person
+                            |individual
+        if typeof(dict.length)!=='undefined'
+            .row
+                .col.s12.m6
+                    .card.blue-grey.lighten-2
+                        .card-content.white-text
+                            span.card-title=dict.data
+        else
+            each value,index in dict
+                .row
+                    .col.s12.m6
+                        .card.blue-grey.lighten-2
+                            .card-content.white-text
+                                span.card-title=index
+                                if value[0].type==="qa"
+                                    table.striped.responsive-table
+                                        tbody
+                                            each i in value
+                                                tr
+                                                    td=i.ans
+                                else
+                                    -var data=[]
+                                    if value[0].type==="checkbox"
+                                        each i in value
+                                            -data.push("'"+i.ans+"'")
+                                        -var q="'"+index+"'"
+                                        -var input="["+data+"]"
+                                    else
+                                        each i in value
+                                            -data.push("'"+i.ans+"'")
+                                        -var q="'"+index+"'"
+                                        -var input="["+data+"]"
+                                    ul.tabs.tabs-fixed-width.blue.lighten-1
+                                        li.tab
+                                            a.blue-grey-text.text-darken-4(href="#"+value[0].number+"table") Table
+                                        li.tab
+                                            -var id="'"+value[0].number+"pie"+"'"
+                                                a.blue-grey-text.text-darken-4(href="#"+value[0].number+"pie",onclick="getpie("+input+","+q+","+id+")") Pie chart
+                                        li.tab
+                                            -var id="'"+value[0].number+"bar"+"'"
+                                                a.blue-grey-text.text-darken-4(href="#"+value[0].number+"bar",onclick="getbar("+input+","+q+","+id+")") Bar chart 
+                                    .card-content.grey.lighten-4.black-text
+                                        .active(id=value[0].number+"table")
+                                            table.striped.responsive-table
+                                                tbody
+                                                    each i in value
+                                                        tr
+                                                            td=i.ans
+                                        canvas(id=value[0].number+"pie") 
+                                        canvas(id=value[0].number+"bar") 
+                                    
+                                        
+    script.  
+        function color(number){
+            var bgcolor=[]
+            for(i=0;i<parseInt(number);i++){
+                var r = Math.floor(Math.random() * 255);
+                var g = Math.floor(Math.random() * 255);
+                var b = Math.floor(Math.random() * 255);
+                bgcolor.push("rgb(" + r + "," + g + "," + b + ")")
+            }
+            return bgcolor
+        }
+        function getpie(data,q,id){
+            var ctx=document.getElementById(id).getContext('2d')
+            var label={}
+            for(i=0;i<data.length;i++){
+                if(!(data[i] in label)){
+                    label[data[i]]=1
+                }else{
+                    label[data[i]]+=1
+                }
+            }
+            var pie=new Chart(ctx,{
+                type:'pie',
+                data:{
+                    labels:Object.keys(label),
+                    datasets:[{
+                        label:q,
+                        data:Object.values(label),
+                        backgroundColor:color(Object.values(label).length)
+                    }]
+                }
+            })
+            return true
+        }
+        function getbar(data,q,id){
+            var ctx=document.getElementById(id).getContext('2d')
+            var label={}
+            for(i=0;i<data.length;i++){
+                if(!(data[i] in label)){
+                    label[data[i]]=1
+                }else{
+                    label[data[i]]+=1
+                }
+            }
+            var bar=new Chart(ctx,{
+                type:'bar',
+                data:{
+                    labels:Object.keys(label),
+                    datasets:[{
+                        label:q,
+                        data:Object.values(label),
+                        backgroundColor:color(Object.values(label).length)
+                    }]
+                }
+            })
+            return true
+        }
+        function individual(){
+            var router=location.pathname
+            window.location.replace(router+"/individual/1")
+        }       

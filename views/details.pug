@@ -1,0 +1,67 @@
+extends layout
+block content
+    script. 
+        function addmessage(router){
+            var userId=getCookie(userId)
+            var userPhoto=getCookie(userPhoto)
+            //  前端網頁更新
+
+            var text=document.getElementById()
+            $.ajax({
+                    type: "POST",
+                    url: '/message/'+router+'/add',
+                    contentType: "application/json",
+                    data:JSON.stringify(message),
+                    success:function(data){
+                       
+                    },
+                    error: function (request, status, error) {
+                        console.log(error);
+                        console.log(status);
+                        }
+              
+             })
+        }
+
+                            
+            
+    .container
+        .row
+            .col-md-6
+                .card(href='/users/uploadform'+form.router)
+                    .card-content
+                        h1.card-title=form.title
+                        p=form.description
+        .row
+            .col-md-12(style='display:flex;')
+                div(style='margin-right:auto')
+                    p 佳穎加油
+                div(style='width:50px')
+                    img(src="/images/user.svg",style='width:50px')
+        .row
+            .col-md-12
+                    .card
+                        .row
+                            .card-image
+                                img(src="/images/user.svg")
+                            .card-content
+                                span.card-title Leave  a message...
+                                //#message
+                                    each i in message
+                                        .row
+                                            .input-field.col.s12
+                                                input.black-text.validate(type='text',value=message,disabled="disabled")
+                                                label.blue-grey-text.text-darken-3(for='title') Description
+                        
+                                .input-field
+                                    input.black-text.validate(type='text')
+                                    label.blue-grey-text.text-darken-3(for='message') fffff
+                        
+                                    
+                                
+                        .row
+                            a.m-auto.waves-effect.waves-light.btn-large(onclick="addmessage("+router+")")
+                                i.material-icons.right message
+                                | Add
+                
+                
