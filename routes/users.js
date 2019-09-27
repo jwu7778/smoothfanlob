@@ -27,19 +27,18 @@ router.get("/", function(req, res, next) {
 router.post("/signup", function(req, res) {
   var email;
   var name;
-  var token;
+  var url;
   if (req.body.provider == "facebook") {
-    token = req.body.access_token;
+    var token = req.body.access_token;
     request(
-      "https://graph.facebook.com/v4.0/me?&fields=name,email&access_token=" +
+      "https://graph.facebook.com/v4.0/me?&fields=pictutre{url},name,email&access_token=" +
         token,
       (error, response, body) => {
-        var data = JSON.parse(body);
         console.log("data" + JSON.stringify(body));
         console.log("a:" + token);
         email = data.email;
         name = data.name;
-        token = token;
+        url = data.picture.data.url;
         user();
       }
     );
@@ -67,9 +66,11 @@ router.post("/signup", function(req, res) {
             provider: "facebook",
             name: name,
             email: email,
-            access_token: token,
-            access_expired: req.body.access_expired
+            access_token: req.body.access_token,
+            access_expired: req.body.access_expired,
+            picture: url
           };
+          console.log("user:" + JSON.stringify(user));
         } else {
           var user = {
             provider: "native",
@@ -94,7 +95,7 @@ router.post("/signup", function(req, res) {
                   provider: rows[0].provider,
                   name: rows[0].name,
                   email: rows[0].email,
-                  picture: ""
+                  picture: rows[0].picture
                 }
               };
 
@@ -120,6 +121,7 @@ router.post("/signup", function(req, res) {
           var token = rows[0].access_token;
           res.cookie("provider", "facebook");
           res.cookie("access_token", token);
+          console.log("token:" + token);
           res.json(token);
         } else {
           res.json({ title: "此信箱已被註冊，請使用會員登入" });
@@ -224,7 +226,6 @@ router.get("/profile", function(req, res) {
 });
 router.post("/picture", (req, res) => {
   upload(req, res, err => {
-    console.log(req.body);
     var userid = req.body.userid;
     if (!req.file) {
       var user = {
