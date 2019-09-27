@@ -4,7 +4,11 @@ block content
     function login(){
           document.getElementById("welcome").style.display="none"
           var access_token=getCookie("access_token");
+          var userId=getCookie("userId");
           if(!access_token || access_token=='-1' ){
+            document.getElementById("welcome").style.display="none"
+            alert("請先登入或註冊");
+          }else if(!userId || userId=='-1' ||userId=='undefined{'){
             document.getElementById("welcome").style.display="none"
             alert("請先登入或註冊");
           }else{
@@ -283,7 +287,8 @@ block content
                 .input-field.col.s12
                   input#password1.validate(name='password', type='password')
                   label(for='password') Password
-              button.btn.btn-xs.btn-outline-success(type='button', onclick='submit()', value='signin') Signup  
+              center
+                button.btn.btn-xs.btn-outline-success(type='button', onclick='submit()', value='signin') Signup  
         .col.md-6
           .card.mx-auto
             .card-content
@@ -296,16 +301,26 @@ block content
                 .input-field.col.s12
                   input#password2.validate(name='password', type='password')
                   label(for='password') Password
-              button.btn.btn-xs.btn-outline-success(type='button', onclick='submit()', value='signin') Signin
+              center
+                button.btn.btn-xs.btn-outline-success(type='button', onclick='submit()', value='signin') Signin
 
       .row
-        .card.mx-auto
-           .card-content
-              h1.card-title Facebook：
-              .fb-login-button(data-width='300px',data-height='100%', data-size='large', onlogin='FBLogin();',data-button-type='continue_with', data-auto-logout-link='false', data-use-continue-as='false')
-        .card.mx-auto(style="width:300px;")
-           .card-content
-              h1.card-title Google：
+        .col-md-6
+          .card.mx-auto
+            .card-content
+                h1.card-title Facebook：
+                center
+                  button.loginBtn.loginBtn--facebook(onclick='FBLogin()') 
+                    |Login with Facebook
+        .col-md-6
+          .card.mx-auto
+            .card-content
+                h1.card-title Google：
+                center
+                  button.loginBtn.loginBtn--google
+                    | Login with Google
+
+
     #welcome
         .row
           #tab.col.s12
@@ -354,8 +369,8 @@ block content
             .card.mx-auto
               .card-content
                 h2.card-title Profile Photo
-              .card-image(style='width:50px;height:50px')
-                img(src='/images/user.svg',id='photo',style='width:50px')
+              .card-image(style='width:200px;height:200px')
+                img(src='/images/user.svg',id='photo',style='width:200px')
 
 
         .row
