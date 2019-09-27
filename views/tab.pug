@@ -21,9 +21,16 @@ block tab
             .modal-content
                 h1 Share it!
                 .input-field
-                    input#address.validate.black-text(type='text',disabled='disabled')
+                    input#address.validate.black-text(type='text')
                     label(class='active',for='address') Address
+                    a.waves-effect.waves-light.btn(onclick='copy()') Copy
+
+                
             .modal-footer
+                a.waves-effect.waves-light.btn(onclick='social("qr")') QRCODE
+                a.waves-effect.waves-light.btn(onclick='social("fb")') Facebook
+                a.waves-effect.waves-light.btn(onclick='social("google")') Google
+                a.waves-effect.waves-light.btn(onclick='social("twitter")') Twitter
                 a.modal-action.modal-close.waves-effect.waves-green.btn-flat(onclick='location.reload();') Close
                         
     script.   
@@ -68,6 +75,29 @@ block tab
             var arrRouter = router.split("/");
             document.getElementById('address').value=location.protocol+location.hostname+"/users/uploadform/"+arrRouter[3]
             M.updateTextFields();
+        }
+        document.getElementById('address').addEventListener("change",()=>share(),false)
+        function copy(){
+            var address=document.getElementById("address")
+            address.select()
+            document.execCommand("Copy")
+            var toastHTML = '<h6>Copy!</h6><button class="btn-flat toast-action"><i class="material-icons">close</i></button>';
+            M.toast({html: toastHTML,classes:'light-blue accent-4 text-darken-2 z-depth-4'})
+        }
+        function social(social){
+            var router=location.pathname
+            var arrRouter = router.split("/");
+            var url=location.protocol+location.hostname+"/users/uploadform/"+arrRouter[3]
+            if(social==='fb'){
+                window.open('https://www.facebook.com/sharer/sharer.php?u='+url)
+            }else if(social==='google'){
+
+            }else if(social==='twitter'){
+
+            }else if(social==='qr'){
+
+            }
+            
         }
 
         

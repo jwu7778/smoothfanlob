@@ -226,6 +226,7 @@ router.get("/profile", function(req, res) {
 });
 router.post("/picture", (req, res) => {
   upload(req, res, err => {
+    if (err) throw err;
     var userid = req.body.userid;
     if (!req.file) {
       var user = {
@@ -299,10 +300,12 @@ router.post("/save", (req, res) => {
     description: req.body.description,
     info: JSON.stringify(req.body)
   };
+  console.log("update:" + JSON.stringify(form));
   con.query(
     "UPDATE form SET ?  WHERE form.router = " + router,
     form,
     (err, rows, fields) => {
+      if (err) throw err;
       res.send(router);
     }
   );

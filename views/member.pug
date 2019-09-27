@@ -23,37 +23,7 @@ block content
                 })
               }
           }
-      function showform(){
-             var user=getCookie("userId")
-              var id={
-                id:user
-              }
-              $.ajax({
-                type: "POST",
-                dataType: "json",
-                url: '/data/showform',
-                contentType: "application/json",
-                data:JSON.stringify(id),
-                success:function(data){
-
-                  var all=document.getElementById("all")
-                  for(i=0;i<data.length;i++){
-                    var a=document.createElement('a')
-                    a.setAttribute('href',data[i].router)
-                    var span=document.createElement('span');
-                    span.appendChild(document.createTextNode(data[i].name))
-                    a.appendChild(span)
-                    all.appenfChild(all)
-                  }
-                  
-                  },
-                error: function (request, status, error) {
-                    alert(request.responseText);
-                     }
-              
-             })
-
-            }
+      
       function profile(data){
          document.getElementById("sign").style.display="none";
          document.getElementById("welcome").style.display="block"; 
@@ -175,32 +145,45 @@ block content
 
       }
       function allform(data){
+        console.log(data.data.length==0)
                   document.getElementById("all").innerHTML=''
                   document.getElementById("all").style.display="block"
                   document.getElementById("profile").style.display="none"
                   document.getElementById("pic").style.display="none"
                   var all=document.getElementById("all")
-                  for(i=0;i<data.data.length;i++){  
-                     var form= document.createElement('div')
-                     form.className='col-m4 card brown lighten-5'
-                     form.id=data.data[i].router
-                      var delet=document.createElement('label');
-                    delet.className='float-right text-info'
-                    delet.setAttribute('onclick',"deleteform("+data.data[i].router+")")
-                    var d=document.createElement('i')
-                    d.className='small material-icons'     
-                    d.appendChild(document.createTextNode('clear'))
-                    delet.appendChild(d)
-                    var a=document.createElement('a')
-                    a.setAttribute('href','/users/form/'+(data.data[i].router))
-                    a.className='btn';
-                    var span=document.createElement('span');
-                    span.appendChild(document.createTextNode(data.data[i].title))
-                    a.appendChild(span)
-                    form.appendChild(delet)
-                    form.appendChild(a)
-                    all.appendChild(form)
+                  if(data.data.length==0){
+                      var form= document.createElement('div')
+                      form.className='col-m4 card brown lighten-5'
+                      var a=document.createElement('a')
+                        a.setAttribute('onclick','getuserid()')
+                        a.className='btn';
+                        a.appendChild(document.createTextNode("Add one now!"))
+                        form.appendChild(a)
+                        all.appendChild(form)
+                  }else{
+                      for(i=0;i<data.data.length;i++){  
+                        var form= document.createElement('div')
+                        form.className='col-m4 card brown lighten-5'
+                        form.id=data.data[i].router
+                        var delet=document.createElement('label');
+                        delet.className='float-right text-info'
+                        delet.setAttribute('onclick',"deleteform("+data.data[i].router+")")
+                        var d=document.createElement('i')
+                        d.className='small material-icons'     
+                        d.appendChild(document.createTextNode('clear'))
+                        delet.appendChild(d)
+                        var a=document.createElement('a')
+                        a.setAttribute('href','/users/form/'+(data.data[i].router))
+                        a.className='btn';
+                        var span=document.createElement('span');
+                        span.appendChild(document.createTextNode(data.data[i].title))
+                        a.appendChild(span)
+                        form.appendChild(delet)
+                        form.appendChild(a)
+                        all.appendChild(form)
+                      }
                   }
+                  
 
       }
       function submit(){
