@@ -31,11 +31,10 @@ router.post("/signup", function(req, res) {
   if (req.body.provider == "facebook") {
     var token = req.body.access_token;
     request(
-      "https://graph.facebook.com/v4.0/me?&fields=pictutre{url},name,email&access_token=" +
+      "https://graph.facebook.com/v4.0/me?&fields=picture{url},name,email&access_token=" +
         token,
       (error, response, body) => {
-        console.log("data" + JSON.stringify(body));
-        console.log("a:" + token);
+        var data = JSON.parse(body);
         email = data.email;
         name = data.name;
         url = data.picture.data.url;
@@ -121,7 +120,8 @@ router.post("/signup", function(req, res) {
           var token = rows[0].access_token;
           res.cookie("provider", "facebook");
           res.cookie("access_token", token);
-          console.log("token:" + token);
+          res.cookie("userId", rows[0].id);
+          res.cookie("userPhoto", rows[0].picture);
           res.json(token);
         } else {
           res.json({ title: "此信箱已被註冊，請使用會員登入" });

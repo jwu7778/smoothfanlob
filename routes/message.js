@@ -31,10 +31,18 @@ router.get("/:router/detail", (req, res) => {
           message: []
         };
         for (i = 0; i < row.length; i++) {
-          var message = {
-            picture: row[i].picture,
-            meg: row[i].message
-          };
+          if (row[i].picture.indexOf("https") > 0) {
+            var message = {
+              provider: "facebook",
+              picture: row[i].picture,
+              meg: row[i].message
+            };
+          } else {
+            var message = {
+              picture: row[i].picture,
+              meg: row[i].message
+            };
+          }
           form.message.push(message);
         }
         res.render("details", { router: router, form: form });

@@ -51,7 +51,10 @@ block content
                                         tr
                                             td=mes.meg
                                             td(style='width:50px;height:50px')
-                                                img(src='/user/'+mes.picture,style='width:100px')
+                                                if (mes.provider)
+                                                    img(src=mes.picture,style='width:100px')
+                                                else
+                                                    img(src='/user/'+mes.picture,style='width:100px')
                                     
         .row
             .col-md-12
@@ -69,5 +72,10 @@ block content
                                     i.material-icons.right message
                                     | Add
     script.  
-        document.getElementById("photo").src='/user/'+getCookie("userPhoto")
+        if(getCookie("provider")=="facebook"){
+            document.getElementById("photo").src=getCookie("userPhoto")
+        }else{
+            document.getElementById("photo").src='/user/'+getCookie("userPhoto")
+        }
+        
                 
