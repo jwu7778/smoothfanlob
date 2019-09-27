@@ -32,13 +32,12 @@ router.get("/:router/detail", (req, res) => {
         };
         for (i = 0; i < row.length; i++) {
           var obj = row[i].picture;
-          if (obj.indexOf("https") > 0) {
+          if (obj.indexOf("https") == 0) {
             var message = {
               provider: "facebook",
               picture: row[i].picture,
               meg: row[i].message
             };
-            console.log(message);
           } else {
             var message = {
               picture: row[i].picture,

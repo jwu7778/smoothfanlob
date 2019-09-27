@@ -60,9 +60,10 @@ block content
          document.getElementsByName("inname")[0].value=data.data.name
          document.getElementsByName("inemail")[0].value=data.data.email
          document.getElementsByName("inpassword")[0].value=data.data.password
-         if(!data.data.photo){
+         var pic=data.data.photo
+         if(!pic){
 
-         }else if(getCookie("provider")=="facebook"){
+         }else if(pic.indexOf("https") == 0){
             document.getElementById("photo").src=data.data.photo
          }else{
            document.getElementById("photo").src='/user/'+data.data.photo
@@ -353,8 +354,8 @@ block content
             .card.mx-auto
               .card-content
                 h2.card-title Profile Photo
-              .card-image
-                img(src='/images/user.svg',id='photo')
+              .card-image(style='width:50px;height:50px')
+                img(src='/images/user.svg',id='photo',style='width:50px')
 
 
         .row
