@@ -29,7 +29,6 @@ block tab
             .modal-footer
                 a.waves-effect.waves-light.btn(onclick='social("qr")') QRCODE
                 a.waves-effect.waves-light.btn(onclick='social("fb")') Facebook
-                a.waves-effect.waves-light.btn(onclick='social("google")') Google
                 a.waves-effect.waves-light.btn(onclick='social("twitter")') Twitter
                 a.modal-action.modal-close.waves-effect.waves-green.btn-flat(onclick='location.reload();') Close
                         
@@ -87,14 +86,15 @@ block tab
         function social(social){
             var router=location.pathname
             var arrRouter = router.split("/");
-            var url=location.protocol+location.hostname+"/users/uploadform/"+arrRouter[3]
+            var url=location.protocol+"//"+location.hostname+"/users/uploadform/"+arrRouter[3]
             if(social==='fb'){
-                window.open('https://www.facebook.com/sharer/sharer.php?u='+url)
-            }else if(social==='google'){
-
+               window.open('https://www.facebook.com/sharer/sharer.php?u='+url)
             }else if(social==='twitter'){
-
+                var decode=encodeURIComponent(url)
+                window.open('http://twitter.com/home/?status='+url)
             }else if(social==='qr'){
+                var decode=encodeURIComponent(url)
+                window.open('http://chart.apis.google.com/chart?cht=qr&chl='+decode+'&chs=120x120')
 
             }
             
