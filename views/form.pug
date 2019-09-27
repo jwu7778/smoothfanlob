@@ -390,13 +390,13 @@ block content
                 data:JSON.stringify(form),
                 success:function(data){
                     var toastHTML = '<h6>Change saved !</h6><button class="btn-flat toast-action"><i class="material-icons">close</i></button>';
-                     M.toast({html: toastHTML,classes:'light-blue accent-4 text-darken-2 z-depth-4'})
+                    M.toast({html: toastHTML,classes:'light-blue accent-4 text-darken-2 z-depth-4'})
                        
                   },
                 error: function (request, status, error) {
-                    alert(request.responseText);
-                     }
-              
+                    console.log(error);
+                    console.log(status);
+                  }
              })
        }
 
