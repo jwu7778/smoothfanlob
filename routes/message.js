@@ -31,12 +31,14 @@ router.get("/:router/detail", (req, res) => {
           message: []
         };
         for (i = 0; i < row.length; i++) {
-          if (row[i].picture.indexOf("https") > 0) {
+          var obj = row[i].picture;
+          if (obj.indexOf("https") > 0) {
             var message = {
               provider: "facebook",
               picture: row[i].picture,
               meg: row[i].message
             };
+            console.log(message);
           } else {
             var message = {
               picture: row[i].picture,

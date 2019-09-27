@@ -62,6 +62,8 @@ block content
          document.getElementsByName("inpassword")[0].value=data.data.password
          if(!data.data.photo){
 
+         }else if(getCookie("provider")=="facebook"){
+            document.getElementById("photo").src=data.data.photo
          }else{
            document.getElementById("photo").src='/user/'+data.data.photo
          }    
