@@ -2,14 +2,11 @@ extends layout
 block content
   script.
     function login(){
-          document.getElementById("welcome").style.display="none"
+          
           var access_token=getCookie("access_token");
           var userId=getCookie("userId");
-          if(!access_token || access_token=='-1' ){
-            document.getElementById("welcome").style.display="none"
-            alert("請先登入或註冊");
-          }else if(!userId || userId=='-1' ||userId=='undefined{'){
-            document.getElementById("welcome").style.display="none"
+          if(!access_token || access_token=='-1'||!userId || userId=='-1' ||userId=='undefined' ){
+            document.getElementById("sign").style.display="block"
             alert("請先登入或註冊");
           }else{
             $.ajax({

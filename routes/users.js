@@ -235,6 +235,7 @@ router.post("/picture", (req, res) => {
       };
     } else {
       var user = {
+        provider: "native",
         name: req.body.inname,
         password: req.body.inpassword,
         picture: req.file.filename

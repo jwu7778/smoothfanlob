@@ -306,3 +306,10 @@ body {
 .loginBtn--google:focus {
   background: #e74b37;
 }
+
+#welcome {
+  display: none;
+}
+#sign {
+  display: none;
+}

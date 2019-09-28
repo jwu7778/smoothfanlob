@@ -72,7 +72,7 @@ block content
                                     i.material-icons.right message
                                     | Add
     script.  
-        if(getCookie("provider")=="facebook"){
+        if(getCookie("userPhoto").indexOf("https") == 0){
             document.getElementById("photo").src=getCookie("userPhoto")
         }else{
             document.getElementById("photo").src='/user/'+getCookie("userPhoto")
