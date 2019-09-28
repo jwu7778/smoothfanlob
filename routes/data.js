@@ -4,8 +4,8 @@ var nodemailer = require("nodemailer");
 var mailTransport = nodemailer.createTransport({
   service: "Gmail",
   auth: {
-    user: "skyjan0428@gmail.com",
-    pass: "Kai12348"
+    user: ,
+    pass: 
   }
 });
 
@@ -92,7 +92,7 @@ router.post("/mail", (req, res) => {
   var data = "忘記密碼驗證碼如下 ";
   console.log(JSON.stringify(req.body));
   mailTransport.sendMail({
-    from: "SmoothFanlab <skyjan0428@gmail.com>",
+    from: "SmoothFanlab ",
     to: mail,
     subject: "Higregergregerger :)",
     html: "<p>" + data + "" + code + "<br> 請到下列網址更新密碼 </p>"
