@@ -28,13 +28,13 @@ block content
             
     .container
         .row
-            .col-md-5
+            .col-md-12
                 .card(onclick='location.href='+"'/users/uploadform/"+form.router+"'")
                     .card-content
                         h1.card-title=form.title
                         p=form.description
-    
-            .col-md-7
+        .row
+            .col-md-12
                 .card
                     .card-content
                         table.highlight.responsive-table
@@ -52,9 +52,14 @@ block content
                                             td=mes.meg
                                             td(style='width:50px;height:50px')
                                                 if (!mes.provider)
-                                                    img(src='/user/'+mes.picture,style='width:50px')
-                                                else
+                                                    if(mes.picture.length == 0)
+                                                        img(src="/images/user.svg",style='width:40px')
+                                                    else
+                                                        img(src='/user/'+mes.picture,style='width:50px')
+                                                
+                                                else 
                                                     img(src=mes.picture,style='width:50px')
+                                                    
                                     
         .row
             .col-md-12
@@ -74,7 +79,7 @@ block content
     script.  
         if(getCookie("userPhoto").indexOf("https") == 0){
             document.getElementById("photo").src=getCookie("userPhoto")
-        }else{
+        }else if(getCookie("userPhoto")){
             document.getElementById("photo").src='/user/'+getCookie("userPhoto")
         }
         

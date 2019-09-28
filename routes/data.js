@@ -1,5 +1,13 @@
 var express = require("express");
 var router = express.Router();
+var nodemailer = require("nodemailer");
+var mailTransport = nodemailer.createTransport({
+  service: "Gmail",
+  auth: {
+    user: "skyjan0428@gmail.com",
+    pass: "Kai12348"
+  }
+});
 
 /* GET home page. */
 router.post("/store", (req, res, next) => {
@@ -48,7 +56,7 @@ router.get("/show/:router/individual/:number", (req, res) => {
       console.log("dddd:" + JSON.stringify(dict));
       console.log("length:" + dict.length);
       res.render("individual", {
-        dict: dict[number],
+        dict: dict[number] == null ? {} : dict[number],
         total: dict.length,
         now: number + 1
       });
@@ -75,6 +83,19 @@ router.post("/deleteform", (req, res) => {
   ) {
     if (err) throw err;
     res.send({ data: rows });
+  });
+});
+router.post("/mail", (req, res) => {
+  console.log("@@@@@@");
+  var mail = req.body.email;
+  var code = new Date().getTime();
+  var data = "忘記密碼驗證碼如下 ";
+  console.log(JSON.stringify(req.body));
+  mailTransport.sendMail({
+    from: "SmoothFanlab <skyjan0428@gmail.com>",
+    to: mail,
+    subject: "Higregergregerger :)",
+    html: "<p>" + data + "" + code + "<br> 請到下列網址更新密碼 </p>"
   });
 });
 module.exports = router;

@@ -318,13 +318,24 @@ router.get("/uploadform/:router", (req, res) => {
     router,
     (err, row, fields) => {
       var json = JSON.parse(row[0].info);
-      var form = {
-        number: router.substr(0, 1),
-        router: router,
-        title: json.title,
-        description: json.description,
-        topic: json.topic
-      };
+      var form;
+      if (json == null) {
+        form = {
+          number: router.substr(0, 1),
+          router: router,
+          title: "",
+          description: "",
+          topic: ""
+        };
+      } else {
+        form = {
+          number: router.substr(0, 1),
+          router: router,
+          title: json.title,
+          description: json.description,
+          topic: json.topic
+        };
+      }
       res.render("userform", { form: form });
     }
   );

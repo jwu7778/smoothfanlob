@@ -7,7 +7,6 @@ block content
           var userId=getCookie("userId");
           if(!access_token || access_token=='-1'||!userId || userId=='-1' ||userId=='undefined' ){
             document.getElementById("sign").style.display="block"
-            alert("請先登入或註冊");
           }else{
             $.ajax({
                       type: "GET",
@@ -41,7 +40,9 @@ block content
          }    
          document.getElementsByName("token")[0].value=data.data.access_token
          M.updateTextFields();
-         alert("Welcome")
+         document.getElementById("out").style.display="block"
+            document.getElementById("form").style.display="block"
+            document.getElementById("in").innerText="Account";
        }
        
       window.fbAsyncInit = function() {
@@ -239,7 +240,6 @@ block content
                       }
                         })
                     }else{
-                      alert(data.title)
                       location.reload();
                     }
                    
@@ -267,8 +267,12 @@ block content
                 .input-field.col.s12
                   input#password1.validate(name='password', type='password')
                   label(for='password') Password
-              center
-                button.btn.btn-xs.btn-outline-success(type='button', onclick='submit()', value='signin') Signup  
+              .row
+                a.m-auto.waves-effect.waves-light.btn(onclick='submit()')
+                    i.material-icons.left person_add
+                    | Singup
+              
+                
         .col.md-6
           .card.mx-auto
             .card-content
@@ -281,9 +285,26 @@ block content
                 .input-field.col.s12
                   input#password2.validate(name='password', type='password')
                   label(for='password') Password
-              center
-                button.btn.btn-xs.btn-outline-success(type='button', onclick='submit()', value='signin') Signin
-
+              .row
+                a.m-auto.waves-effect.waves-light.btn(onclick='submit()', value='signin')
+                    i.material-icons.left person
+                    | Singin
+                a.m-auto.waves-effect.waves-light.btn(onclick='forgot()', value='signin')
+                    i.material-icons.left help_outline
+                    | Forget? 
+              #forgot
+                .row
+                  .input-field.col.s12
+                    input#forget.validate(name='email', type='email')
+                    label(for='email') Enter the registered mailbox
+                .row
+                  a.m-auto.waves-effect.waves-light.btn-small(onclick='mail()')
+                    i.material-icons.left email
+                    | Send
+                  
+              
+              
+      
       .row
         .col-md-6
           .card.mx-auto
@@ -357,4 +378,29 @@ block content
           #all.col.s12
   script. 
       login()
+      function mail(){
+        var mail=document.getElementById("forget").value
+        var data={
+          email:mail
+        }
+        $.ajax({
+                type: "POST",
+                dataType: "json",
+                url: '/data/mail',
+                contentType: "application/json",
+                data:JSON.stringify(data),
+                success:function(data){
+                    console.log("Success");
+                  },
+                error: function (request, status, error) {
+                    console.log(error);
+                    console.log(status);
+                    console.log(request)
+                  }
+             })
+       
+      }
+      function forgot(){
+        document.getElementById("forgot").style.display="block"; 
+      }
       

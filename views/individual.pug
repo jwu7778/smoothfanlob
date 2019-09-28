@@ -20,6 +20,7 @@ block content
                 .card.blue-grey.lighten-2
                     .card-content.white-text
                         .row.m-auto
+                        if (total!=0)
                             ul.pagination
                                 li.waves-effect
                                     a(onclick='pre('+now+','+total+')')
@@ -27,7 +28,9 @@ block content
                                 span.card-title=now+"         of            "+total
                                 li.waves-effect
                                     a(onclick='next('+now+','+total+')')
-                                        i.material-icons chevron_right
+                                        i.material-icons chevron_right 
+                        else   
+                            span NO RESPONSE NOW !             
                         each i in dict    
                             -var obj=JSON.stringify(i)
                             -var js=JSON.parse(obj)
