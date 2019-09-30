@@ -4,7 +4,7 @@ var router = express.Router();
 /* GET home page. */
 router.get("/", function(req, res, next) {
   con.query("SELECT router,title,description FROM form", (err, row, fields) => {
-    res.render("index", { form: row });
+    res.render("page", { form: row });
   });
 });
 

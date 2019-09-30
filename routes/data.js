@@ -4,8 +4,8 @@ var nodemailer = require("nodemailer");
 var mailTransport = nodemailer.createTransport({
   service: "Gmail",
   auth: {
-    user: "skyjan0428@gmail.com",
-    pass: "Kai12348"
+    user: "smoothfanlob@gmail.com",
+    pass: "smoothfanlob0416"
   }
 });
 
@@ -86,16 +86,44 @@ router.post("/deleteform", (req, res) => {
   });
 });
 router.post("/mail", (req, res) => {
-  console.log("@@@@@@");
   var mail = req.body.email;
+  console.log(mail);
   var code = new Date().getTime();
-  var data = "忘記密碼驗證碼如下 ";
-  console.log(JSON.stringify(req.body));
-  mailTransport.sendMail({
-    from: "SmoothFanlab <skyjan0428@gmail.com>",
-    to: mail,
-    subject: "Higregergregerger :)",
-    html: "<p>" + data + "" + code + "<br> 請到下列網址更新密碼 </p>"
-  });
+  var pass = {
+    password: code
+  };
+  con.query(
+    "SELECT user.email FROM user WHERE user.email = '" + mail + "'",
+    (err, rows) => {
+      console.log(rows.lenght);
+      if (err) throw err;
+      if (!rows.lenght) {
+        console.log("DD");
+        res.send("No information, please re-register or change your mailbox");
+      } else {
+        con.query(
+          "UPDATE user SET ? WHERE user.email = ?",
+          [pass, mail],
+          (err, rows, fields) => {}
+        );
+        mailTransport.sendMail(
+          {
+            from: "SmoothFanlab <smoothfanlob@gmail.com>",
+            to: mail,
+            subject: "Forgot password",
+            html:
+              "<p>Your temporary password is:" +
+              code +
+              "<br>to maintain account security,  please change your password after login. </p>"
+          },
+          function(err) {
+            if (err) {
+              console.log("Unable to send email: " + err);
+            }
+          }
+        );
+      }
+    }
+  );
 });
 module.exports = router;

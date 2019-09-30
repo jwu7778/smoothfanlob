@@ -30,7 +30,7 @@ CREATE TABLE `form` (
   `title` varchar(255) DEFAULT NULL,
   `description` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=89 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=99 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -39,7 +39,7 @@ CREATE TABLE `form` (
 
 LOCK TABLES `form` WRITE;
 /*!40000 ALTER TABLE `form` DISABLE KEYS */;
-INSERT INTO `form` VALUES (66,'{\"title\": \"你好誒\", \"topic\": [{\"q\": \"心情如何？\", \"type\": \"qa\"}, {\"q\": \"最適合的形容詞\", \"type\": \"radio\", \"option\": [\"開心\", \"快樂\", \"幸福\", \"傷心\"]}, {\"q\": \"早餐吃什麼\", \"type\": \"checkbox\", \"option\": [\"牛奶\", \"蛋餅\", \"豆漿\", \"飯糰\"]}, {\"q\": \"今天幾號？\", \"type\": \"date\"}], \"router\": \"41568597146610\", \"userid\": \"4\", \"description\": \"妳好\"}','41568597146610','4','你好誒','妳好'),(78,'{\"title\": \"你叫什麼名字？\", \"topic\": [{\"q\": \"你的名字\", \"type\": \"qa\"}, {\"q\": \"你的生肖\", \"type\": \"radio\", \"option\": [\"鼠\", \"牛\", \"虎\", \"兔\", \"龍\"]}, {\"q\": \"你喜歡哪個數字\", \"type\": \"checkbox\", \"option\": [\"1\", \"2\", \"3\", \"4\", \"5\", \"6\"]}, {\"q\": \"生日幾號？\", \"type\": \"date\"}], \"router\": \"41569201062341\", \"userid\": \"4\", \"description\": \"想要了解大家\"}','41569201062341','4','你叫什麼名字？','想要了解大家'),(83,'{\"title\": \"gg\", \"topic\": [{\"q\": \"dddddddd\", \"type\": \"qa\"}], \"router\": \"41569394712670\", \"userid\": \"4\", \"description\": \"\"}','41569394712670','4','gg',''),(85,'{\"title\": \"test\", \"topic\": [{\"q\": \"d23r23r3r23\", \"type\": \"checkbox\", \"option\": [\"\"]}], \"router\": \"41569463356862\", \"userid\": \"4\", \"description\": \"123\"}','41569463356862','4','test','123');
+INSERT INTO `form` VALUES (97,'{\"title\": \"你會哪幾種語言？\", \"topic\": [{\"q\": \"你會幾種語言？\", \"type\": \"radio\", \"option\": [\"一種\", \"兩種\", \"三種\", \"三種以上\"]}, {\"q\": \"包含下列哪些語言？\", \"type\": \"checkbox\", \"option\": [\"國語\", \"英語\", \"日語\", \"韓語\", \"其他\"]}, {\"q\": \"想要請您來分享語言學習相關經驗，想問方便在哪天？\", \"type\": \"date\"}], \"router\": \"41569862437829\", \"userid\": \"4\", \"description\": \"想了解現代人大多會哪些語言\"}','41569862437829','4','你會哪幾種語言？','想了解現代人大多會哪些語言'),(98,'{\"title\": \"想喝什麼飲料？\", \"topic\": [{\"q\": \"你的名字\", \"type\": \"qa\"}, {\"q\": \"你的飲料要？\", \"type\": \"radio\", \"option\": [\"紅茶\", \"綠茶\", \"果汁\"]}], \"router\": \"41569862872320\", \"userid\": \"4\", \"description\": \"訂下午茶\"}','41569862872320','4','想喝什麼飲料？','訂下午茶');
 /*!40000 ALTER TABLE `form` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -56,7 +56,7 @@ CREATE TABLE `message` (
   `userid` varchar(225) DEFAULT NULL,
   `message` varchar(225) DEFAULT NULL,
   PRIMARY KEY (`idmessage`)
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -65,6 +65,7 @@ CREATE TABLE `message` (
 
 LOCK TABLES `message` WRITE;
 /*!40000 ALTER TABLE `message` DISABLE KEYS */;
+INSERT INTO `message` VALUES (13,'41568597146610','7','1234'),(14,'41568597146610','','wwwwww'),(15,'41568597146610','','');
 /*!40000 ALTER TABLE `message` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -81,7 +82,7 @@ CREATE TABLE `result` (
   `result` json DEFAULT NULL,
   `time` varchar(225) DEFAULT NULL,
   PRIMARY KEY (`idresult`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -90,7 +91,7 @@ CREATE TABLE `result` (
 
 LOCK TABLES `result` WRITE;
 /*!40000 ALTER TABLE `result` DISABLE KEYS */;
-INSERT INTO `result` VALUES (1,'41568526978712','[{\"q\": \"231123\", \"ans\": \"qweqweqw\", \"type\": \"radio\", \"number\": 1}, {\"q\": \"eqweqweqw\", \"ans\": [\"ewqeqweqwe\"], \"type\": \"checkbox\", \"number\": 2}]','1568527438061'),(2,'41568597146610','[{\"q\": \"心情如何？\", \"ans\": \"還好\", \"type\": \"qa\", \"number\": 1}, {\"q\": \"最適合的形容詞\", \"ans\": \"快樂\", \"type\": \"radio\", \"number\": 2}, {\"q\": \"早餐吃什麼\", \"ans\": [\"蛋餅\", \"豆漿\"], \"type\": \"checkbox\", \"number\": 3}, {\"q\": \"今天幾號？\", \"ans\": \"Sep 16, 2019\", \"type\": \"date\", \"number\": 4}]','1568597273914'),(3,'41568597146610','[{\"q\": \"心情如何？\", \"ans\": \"還好\", \"type\": \"qa\", \"number\": 1}, {\"q\": \"最適合的形容詞\", \"ans\": \"幸福\", \"type\": \"radio\", \"number\": 2}, {\"q\": \"早餐吃什麼\", \"ans\": [\"蛋餅\", \"豆漿\"], \"type\": \"checkbox\", \"number\": 3}, {\"q\": \"今天幾號？\", \"ans\": \"Sep 16, 2019\", \"type\": \"date\", \"number\": 4}]','1568597305859'),(4,'41568770435135','[{\"q\": \"sdadasdasreberberber\", \"ans\": \"fwefwfwqdqw\", \"type\": \"qa\", \"number\": 1}, {\"q\": \"sadadasd\", \"ans\": \"wdwdqwdqw\", \"type\": \"radio\", \"number\": 2}, {\"q\": \"dwdwdqwdqwfvdfvdfv\", \"ans\": [\"weqwe\", \"dqwdwdqw\"], \"type\": \"checkbox\", \"number\": 3}]','1568771805172'),(5,'41568597146610','[{\"q\": \"心情如何？\", \"ans\": \"傷心\", \"type\": \"qa\", \"number\": 1}, {\"q\": \"最適合的形容詞\", \"ans\": \"傷心\", \"type\": \"radio\", \"number\": 2}, {\"q\": \"早餐吃什麼\", \"ans\": [\"牛奶\", \"蛋餅\"], \"type\": \"checkbox\", \"number\": 3}, {\"q\": \"今天幾號？\", \"ans\": \"Sep 25, 2019\", \"type\": \"date\", \"number\": 4}]','1568772881303'),(6,'41568968435632','[{\"q\": \"weee\", \"ans\": \"eeeee\", \"type\": \"radio\", \"number\": 1}]','1568968481704'),(7,'41569201062341','[{\"q\": \"你的名字\", \"ans\": \"佳穎\", \"type\": \"qa\", \"number\": 1}, {\"q\": \"你的生肖\", \"ans\": \"牛\", \"type\": \"radio\", \"number\": 2}, {\"q\": \"你喜歡哪個數字\", \"ans\": [\"3\", \"4\"], \"type\": \"checkbox\", \"number\": 3}, {\"q\": \"生日幾號？\", \"ans\": \"Sep 22, 2019\", \"type\": \"date\", \"number\": 4}]','1569201858017'),(8,'41569201062341','[{\"q\": \"你的名字\", \"ans\": \"Crystal\", \"type\": \"qa\", \"number\": 1}, {\"q\": \"你的生肖\", \"ans\": \"鼠\", \"type\": \"radio\", \"number\": 2}, {\"q\": \"你喜歡哪個數字\", \"ans\": [\"5\", \"6\"], \"type\": \"checkbox\", \"number\": 3}, {\"q\": \"生日幾號？\", \"ans\": \"Sep 01, 2019\", \"type\": \"date\", \"number\": 4}]','1569201891648'),(9,'41569201062341','[{\"q\": \"你的名字\", \"ans\": \"tt\", \"type\": \"qa\", \"number\": 1}, {\"q\": \"你的生肖\", \"ans\": \"牛\", \"type\": \"radio\", \"number\": 2}, {\"q\": \"你喜歡哪個數字\", \"ans\": [\"3\", \"4\"], \"type\": \"checkbox\", \"number\": 3}, {\"q\": \"生日幾號？\", \"ans\": \"Sep 29, 2019\", \"type\": \"date\", \"number\": 4}]','1569204690365'),(10,'41569394712670','[{\"q\": \"dddddddd\", \"ans\": \"\", \"type\": \"qa\", \"number\": 1}]','1569394778280');
+INSERT INTO `result` VALUES (14,'41569862437829','[{\"q\": \"你會幾種語言？\", \"ans\": \"三種\", \"type\": \"radio\", \"number\": 1}, {\"q\": \"包含下列哪些語言？\", \"ans\": [\"英語\", \"日語\"], \"type\": \"checkbox\", \"number\": 2}, {\"q\": \"想要請您來分享語言學習相關經驗，想問方便在哪天？\", \"ans\": \"Oct 27, 2019\", \"type\": \"date\", \"number\": 3}]','1569862720856'),(15,'41569862437829','[{\"q\": \"你會幾種語言？\", \"ans\": \"一種\", \"type\": \"radio\", \"number\": 1}, {\"q\": \"包含下列哪些語言？\", \"ans\": [\"其他\"], \"type\": \"checkbox\", \"number\": 2}, {\"q\": \"想要請您來分享語言學習相關經驗，想問方便在哪天？\", \"ans\": \"Oct 20, 2019\", \"type\": \"date\", \"number\": 3}]','1569862732230'),(16,'41569862437829','[{\"q\": \"你會幾種語言？\", \"ans\": \"兩種\", \"type\": \"radio\", \"number\": 1}, {\"q\": \"包含下列哪些語言？\", \"ans\": [\"英語\"], \"type\": \"checkbox\", \"number\": 2}, {\"q\": \"想要請您來分享語言學習相關經驗，想問方便在哪天？\", \"ans\": \"Oct 13, 2019\", \"type\": \"date\", \"number\": 3}]','1569862743445'),(17,'41569862437829','[{\"q\": \"你會幾種語言？\", \"ans\": \"兩種\", \"type\": \"radio\", \"number\": 1}, {\"q\": \"包含下列哪些語言？\", \"ans\": [\"英語\"], \"type\": \"checkbox\", \"number\": 2}, {\"q\": \"想要請您來分享語言學習相關經驗，想問方便在哪天？\", \"ans\": \"Oct 13, 2019\", \"type\": \"date\", \"number\": 3}]','1569862755885'),(18,'41569862437829','[{\"q\": \"你會幾種語言？\", \"ans\": \"三種\", \"type\": \"radio\", \"number\": 1}, {\"q\": \"包含下列哪些語言？\", \"ans\": [\"日語\"], \"type\": \"checkbox\", \"number\": 2}, {\"q\": \"想要請您來分享語言學習相關經驗，想問方便在哪天？\", \"ans\": \"Oct 25, 2019\", \"type\": \"date\", \"number\": 3}]','1569862768179'),(19,'41569862437829','[{\"q\": \"你會幾種語言？\", \"ans\": \"一種\", \"type\": \"radio\", \"number\": 1}, {\"q\": \"包含下列哪些語言？\", \"ans\": [\"日語\"], \"type\": \"checkbox\", \"number\": 2}, {\"q\": \"想要請您來分享語言學習相關經驗，想問方便在哪天？\", \"ans\": \"Oct 13, 2019\", \"type\": \"date\", \"number\": 3}]','1569862779006'),(20,'41569862872320','[{\"q\": \"你的名字\", \"ans\": \"test1\", \"type\": \"qa\", \"number\": 1}, {\"q\": \"你的飲料要？\", \"ans\": \"紅茶\", \"type\": \"radio\", \"number\": 2}]','1569862981090'),(21,'41569862872320','[{\"q\": \"你的名字\", \"ans\": \"test2\", \"type\": \"qa\", \"number\": 1}, {\"q\": \"你的飲料要？\", \"ans\": \"綠茶\", \"type\": \"radio\", \"number\": 2}]','1569862989184'),(22,'41569862872320','[{\"q\": \"你的名字\", \"ans\": \"test3\", \"type\": \"qa\", \"number\": 1}, {\"q\": \"你的飲料要？\", \"ans\": \"果汁\", \"type\": \"radio\", \"number\": 2}]','1569862996666');
 /*!40000 ALTER TABLE `result` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -106,12 +107,12 @@ CREATE TABLE `user` (
   `provider` varchar(45) DEFAULT NULL,
   `name` varchar(45) DEFAULT NULL,
   `email` varchar(45) DEFAULT NULL,
-  `access_token` varchar(45) DEFAULT NULL,
+  `access_token` varchar(255) DEFAULT NULL,
   `access_expired` varchar(45) DEFAULT NULL,
   `password` varchar(45) DEFAULT NULL,
   `picture` varchar(225) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -120,7 +121,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (1,'native','aa','aa','0c35d8a893f5011a6cfe6828a079893d','1567757805996','aaa',NULL),(2,'native','qq','qq','b2b012866a39cc353ae1ef1f3d8564e7','1568077220904','qq',NULL),(3,'native','33','33','17e6c0ecc5e5fbb7d21d794ab6b26e24','1568080355005','33',NULL),(4,'native','123','123','bc85abb9bd42c6e33366705264f47b84','1569479338668','123','big.png-1569392347583.png'),(7,'native','cc','cc','6d747f1d02c4508ce0530d1865d1b349','1568387529114','cc',NULL);
+INSERT INTO `user` VALUES (1,'native','aa','aa','0c35d8a893f5011a6cfe6828a079893d','1567757805996','aaa',NULL),(2,'native','qq','qq','b2b012866a39cc353ae1ef1f3d8564e7','1568077220904','qq',NULL),(3,'native','33','33','17e6c0ecc5e5fbb7d21d794ab6b26e24','1568080355005','33',NULL),(4,'native','123','123','4303909bb0ca0fdd7581a9d24a7adc58','1569857195032','12345','big.png-1569392347583.png'),(7,'facebook','cc','cc','a5ff0183a93d011853e65cf1037ed77e','1569561471430','cc',''),(12,NULL,NULL,'jwu7778@gmail.com',NULL,NULL,'1569689086674',NULL);
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -133,4 +134,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-09-26 16:40:18
+-- Dump completed on 2019-10-01  1:14:23
