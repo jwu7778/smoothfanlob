@@ -31,7 +31,7 @@ router.post("/signup", function(req, res) {
   if (req.body.provider == "facebook") {
     var token = req.body.access_token;
     request(
-      "https://graph.facebook.com/v4.0/me?&fields=picture{url},name,email&access_token=" +
+      "https://graph.facebook.com/v4.0/me?&fields=picture.type(large){url},name,email&access_token=" +
         token,
       (error, response, body) => {
         var data = JSON.parse(body);
