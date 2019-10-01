@@ -3,6 +3,11 @@ block content
     script. 
         function addmessage(router){
             var userId=getCookie("userId")
+            if(!userId ||userId=='-1'){
+                alert("Please register or login to leave a message")
+                window.location.replace("/users")
+                return
+            }
             var message={
                 userid:userId,
                 message:document.getElementById("meg").value,
