@@ -48,7 +48,7 @@ html
             }
     nav.navbar.navbar-expand-sm.fixed-top.navbar-default.navbar-light
       a.navbar-brand(href='/')
-        img(src="/images/word.png")
+        img(src="/images/word.png",style='width:100px')
       button.navbar-toggler(type='button', data-toggle='collapse', data-target='#navbarSupportedContent', aria-controls='navbarSupportedContent', aria-expanded='false', aria-label='Toggle navigation')
         span.navbar-toggler-icon
       #navbarSupportedContent.collapse.navbar-collapse
@@ -110,8 +110,7 @@ html
 
             }
             function singout(){
-              document.cookie = "userId" + "=" +"-1"
-              document.cookie = "access_token"+ "=" + "-1 "
+              document.cookie =''
               alert("singout success")
               window.location.replace("/")
             }

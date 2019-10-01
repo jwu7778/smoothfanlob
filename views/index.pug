@@ -37,11 +37,8 @@ block content
         .row
             -var p=0
             each i in form
-                -p=p+1
                 .col-md-4
                     .card
-                        .card-image
-                            img(src='https://lorempixel.com/200/200/nature/'+p)
                         .card-panel.teal.lighten-2
                             .row
                                 a(href='/message/'+i.router+'/detail')

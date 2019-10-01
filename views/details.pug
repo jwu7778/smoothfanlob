@@ -7,6 +7,9 @@ block content
                 alert("Please register or login to leave a message")
                 window.location.replace("/users")
                 return
+            }else if(document.getElementById("meg").value.length==0){
+                alert("Message cannot be blank!")
+                return
             }
             var message={
                 userid:userId,
