@@ -106,6 +106,8 @@ router.post("/signup", function(req, res) {
               if (req.body.provider == "facebook") {
                 res.cookie("provider", "facebook");
                 res.cookie("access_token", token);
+                res.cookie("userId", rows[0].id);
+                res.cookie("userPhoto", rows[0].picture);
               } else {
                 res.cookie("provider", "native");
                 res.cookie("access_token", crypted);
