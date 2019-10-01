@@ -380,7 +380,9 @@ block content
       login()
       function mail(){
         var mail=document.getElementById("forget").value
-        console.log(mail)
+        if(mail.indexOf("@") == 0 ||mail.indexOf("@") == -1){
+          alert("Please enter correct mailbox!")
+        }
         var data={
           email:mail
         }
@@ -391,8 +393,7 @@ block content
                 contentType: "application/json",
                 data:JSON.stringify(data),
                 success:function(data){
-                  alert("aa")
-                
+                  alert(data)
                   },
                 error: function (request, status, error) {
                     console.log(error);

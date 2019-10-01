@@ -95,11 +95,13 @@ router.post("/mail", (req, res) => {
   con.query(
     "SELECT user.email FROM user WHERE user.email = '" + mail + "'",
     (err, rows) => {
-      console.log(rows.lenght);
       if (err) throw err;
-      if (!rows.lenght) {
-        console.log("DD");
-        res.send("No information, please re-register or change your mailbox");
+      console.log("a:" + rows);
+      console.log("a:" + JSON.stringify(rows));
+      console.log(rows.length);
+      console.log((rows.lenght = 1));
+      if (rows.lenght === 0) {
+        res.json("No information, please re-register or change your mailbox");
       } else {
         con.query(
           "UPDATE user SET ? WHERE user.email = ?",
@@ -119,6 +121,8 @@ router.post("/mail", (req, res) => {
           function(err) {
             if (err) {
               console.log("Unable to send email: " + err);
+            } else {
+              res.json("Send successfully!");
             }
           }
         );
