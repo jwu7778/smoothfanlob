@@ -63,6 +63,9 @@ block content
              if(getCookie("userId")==number.substr(0,1)){
                  document.getElementById("tab").style.display="block"
                  document.getElementById("sub").setAttribute("disabled","disabled")
+             }else if(getCookie("userId")==number.substr(0,2)){
+                 document.getElementById("tab").style.display="block"
+                 document.getElementById("sub").setAttribute("disabled","disabled")
              }else{
                  document.getElementById("tab").style.display="none"
              }
