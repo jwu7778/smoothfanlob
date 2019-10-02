@@ -13,7 +13,7 @@ router.get("/:router/detail", (req, res) => {
         con.query(
           "SELECT title,description FROM form WHERE router=?",
           router,
-          (err, rows, filed) => {
+          (err, rows) => {
             if (err) throw err;
             var form = {
               title: rows[0].title,
@@ -54,7 +54,7 @@ router.get("/:router/detail", (req, res) => {
 
 router.post("/:router/add", (req, res) => {
   var message = req.body;
-  con.query("INSERT INTO message set ?", message, (err, row, filed) => {
+  con.query("INSERT INTO message set ?", message, (err, row) => {
     res.send("ok");
   });
 });

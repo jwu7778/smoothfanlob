@@ -8,7 +8,7 @@ var path = require("path");
 //multer
 const storage = multer.diskStorage({
   destination: "./public/user/",
-  filename: function(req, file, cb) {
+  filename: (req, file, cb) => {
     cb(
       null,
       file.originalname + "-" + Date.now() + path.extname(file.originalname)
@@ -20,11 +20,11 @@ const upload = multer({
 }).single("picture");
 
 /* GET users listing. */
-router.get("/", function(req, res, next) {
+router.get("/", (req, res) => {
   res.render("member");
 });
 
-router.post("/signup", function(req, res) {
+router.post("/signup", (req, res) => {
   var email;
   var name;
   var url;
@@ -46,94 +46,94 @@ router.post("/signup", function(req, res) {
     user();
   }
   function user() {
-    con.query("SELECT * FROM user WHERE user.email = '" + email + "'", function(
-      err,
-      rows
-    ) {
-      if (err) throw err;
-      if (rows.length == 0) {
-        var data = JSON.stringify(req.body);
-        var timenow = new Date().getTime();
-        var time = String(timenow);
-        //encrypt
-        var cipher = crypto.createCipher("aes256", data);
-        var crypted = cipher.update(time, "utf8", "hex");
-        crypted += cipher.final("hex");
+    con.query(
+      "SELECT * FROM user WHERE user.email = '" + email + "'",
+      (err, rows) => {
+        if (err) throw err;
+        if (rows.length == 0) {
+          var data = JSON.stringify(req.body);
+          var timenow = new Date().getTime();
+          var time = String(timenow);
+          //encrypt
+          var cipher = crypto.createCipher("aes256", data);
+          var crypted = cipher.update(time, "utf8", "hex");
+          crypted += cipher.final("hex");
 
-        if (req.body.provider == "facebook") {
-          var user = {
-            provider: "facebook",
-            name: name,
-            email: email,
-            access_token: req.body.access_token,
-            access_expired: req.body.access_expired,
-            picture: url
-          };
-          console.log("user:" + JSON.stringify(user));
-        } else {
-          var user = {
-            provider: "native",
-            name: req.body.name,
-            email: req.body.email,
-            password: req.body.password,
-            access_token: crypted,
-            access_expired: timenow + 600000
-          };
-        }
+          if (req.body.provider == "facebook") {
+            var user = {
+              provider: "facebook",
+              name: name,
+              email: email,
+              access_token: req.body.access_token,
+              access_expired: req.body.access_expired,
+              picture: url
+            };
+            console.log("user:" + JSON.stringify(user));
+          } else {
+            var user = {
+              provider: "native",
+              name: req.body.name,
+              email: req.body.email,
+              password: req.body.password,
+              access_token: crypted,
+              access_expired: timenow + 600000
+            };
+          }
 
-        con.query("INSERT INTO user SET ?", user, function(err, rows, fields) {
-          con.query(
-            "SELECT * FROM user WHERE  user.id = '" + rows.insertId + "'",
-            function(err, rows, fields) {
-              if (err) throw err;
-              var user = {
-                access_token: rows[0].access_token,
-                access_expired: rows[0].access_expired,
-                user: {
-                  id: rows.insertId,
-                  provider: rows[0].provider,
-                  name: rows[0].name,
-                  email: rows[0].email,
-                  picture: rows[0].picture
+          con.query("INSERT INTO user SET ?", user, (err, rows) => {
+            con.query(
+              "SELECT * FROM user WHERE  user.id = '" + rows.insertId + "'",
+              (err, rows) => {
+                if (err) throw err;
+                var user = {
+                  access_token: rows[0].access_token,
+                  access_expired: rows[0].access_expired,
+                  user: {
+                    id: rows.insertId,
+                    provider: rows[0].provider,
+                    name: rows[0].name,
+                    email: rows[0].email,
+                    picture: rows[0].picture
+                  }
+                };
+
+                var obj = {
+                  data: user,
+                  msg: "註冊成功"
+                };
+
+                if (req.body.provider == "facebook") {
+                  res.cookie("provider", "facebook");
+                  res.cookie("access_token", token);
+                  res.cookie("userId", rows[0].id);
+                  res.cookie("userPhoto", rows[0].picture);
+                } else {
+                  res.cookie("provider", "native");
+                  res.cookie("access_token", crypted);
+                  res.cookie("access_expired", timenow + 600000);
                 }
-              };
-
-              var obj = {
-                data: user,
-                msg: "註冊成功"
-              };
-
-              if (req.body.provider == "facebook") {
-                res.cookie("provider", "facebook");
-                res.cookie("access_token", token);
-                res.cookie("userId", rows[0].id);
-                res.cookie("userPhoto", rows[0].picture);
-              } else {
-                res.cookie("provider", "native");
-                res.cookie("access_token", crypted);
-                res.cookie("access_expired", timenow + 600000);
+                res.json(obj);
               }
-              res.json(obj);
-            }
-          );
-        });
-      } else {
-        if (req.body.provider == "facebook") {
-          var token = rows[0].access_token;
-          res.cookie("provider", "facebook");
-          res.cookie("access_token", token);
-          res.cookie("userId", rows[0].id);
-          res.cookie("userPhoto", rows[0].picture);
-          res.json(token);
+            );
+          });
         } else {
-          res.json({ title: "此信箱已被註冊，請使用會員登入" });
+          if (req.body.provider == "facebook") {
+            var token = rows[0].access_token;
+            res.cookie("provider", "facebook");
+            res.cookie("access_token", token);
+            res.cookie("userId", rows[0].id);
+            res.cookie("userPhoto", rows[0].picture);
+            res.json(token);
+          } else {
+            res.json({ title: "此信箱已被註冊，請使用會員登入" });
+          }
         }
       }
-    });
+    );
   }
 });
 
-router.post("/signin", function(req, res) {
+router.post("/signin", (req, res) => {
   var email = req.body.email;
   var pass = req.body.password;
 
@@ -143,7 +143,7 @@ router.post("/signin", function(req, res) {
       "' AND password = '" +
       pass +
       "'",
-    function(err, rows, fields) {
+    (err, rows) => {
       if (err) throw err;
       if (!rows[0]) {
         res.json({ error: "Incorrect account password!" });
@@ -178,8 +178,7 @@ router.post("/signin", function(req, res) {
           con.query(
             "UPDATE user SET ? WHERE user.id = '" + rows[0].id + "'",
             token1,
-            function(err, rows, fields) {
-              if (err) console.log("2:" + err);
+            (err, rows) => {
               res.cookie("provider", "native");
               res.cookie("access_token", crypted);
               res.cookie("access_expired", timenow + 600000);
@@ -198,7 +197,7 @@ router.post("/signin", function(req, res) {
   );
 });
 
-router.get("/profile", function(req, res) {
+router.get("/profile", (req, res) => {
   if (!req.query.token) {
     var data = req.headers.authorization.substr(7);
   } else {
@@ -206,7 +205,7 @@ router.get("/profile", function(req, res) {
   }
   con.query(
     "SELECT * FROM user WHERE user.access_token = '" + data + "'",
-    function(err, rows, fields) {
+    (err, rows) => {
       if (err) throw err;
       if (rows.length == 0) {
         res.json({ data: "請先登入" });
