@@ -12,69 +12,71 @@ block page
     #newssection.slogan-section.margin-bottom.parallax-container.valign-wrapper
         .container
             center
-                img(src='/images/uugai-1.png',style="width:300px")
+                img(src='/images/smoothfanlob.png',style="width:300px")
         .parallax
-            img(src='/images/water.jpg', alt='Unsplashed background img 2')
+            img(src='https://picsum.photos/id/1048/1500/1000', alt='Unsplashed background img 2')
     .section.grey.lighten-3
-        .row.container
-            .col.s12.m10.offset-m1
-                h1.blue-text.text-darken-4.header News
+        .container
+            .row
+                center
+                    h1.teal-text.header News
+            .row
                 p.grey-text.text-darken-3.lighten-3
                     |v1.0 : 2019/09/30 member system and forum system update.
 
    
-    section#intro.slogan-section.margin-bottom.parallax-container.valign-wrapper
-        .container
-            .overlay
-                h1.center-align.slogan-description Introduction
-        .parallax
-            img(src='/images/water.jpg', alt='Unsplashed background img 2')
-                
+    
     .section.grey.lighten-3
-        .row.container
-            .col.s12.m10.offset-m1
-                h1.blue-text.text-darken-4.header Introduction 
-                p.grey-text.text-darken-3.lighten-3 
-                    |This is a platform for providing customized forms services, whether you want to host an event to ask for your willingness to participate, or if you want to send an afternoon tea with your colleagues, or collect sample data for a homework assignment, we provides an easy way to get the information you want more easily.Hope you enjoy it!
         .container
+            hr
+            .row
+                center
+                    h1.teal-text.header Introduction 
+            .row
+                p.grey-text.text-darken-3.lighten-3 
+                    |這是一個提供客製表格服務的平台，無論您是想舉辦一個活動以徵詢對方的參與意願，還是想與同事一起喝下午茶，還是想收集研究報告的樣本數據，我們都會為您提供輕鬆獲得所需信息的簡便方法。還等什麼現在揪開始建立第一份屬於你自己的問卷吧！
             .row 
                 .col-md-3
                     center
-                        h3.blue-text.text-darken-3 Step 1
+                        h3.teal-text.text-darken-1 Step 1
                         img(src='/images/1.png',style='width:90%')
                 .col-md-3
                     center
-                        h3.blue-text.text-darken-3 Step 2
+                        h3.teal-text.text-darken-1 Step 2
                         img(src='/images/2.png',style='width:90%')
                 .col-md-3
                     center
-                        h3.blue-text.text-darken-3 Step 3
+                        h3.teal-text.text-darken-1 Step 3
                         img(src='/images/3.png',style='width:90%')
                 .col-md-3
                     center
-                        h3.blue-text.text-darken-3 Step 4
+                        h3.teal-text.text-darken-1 Step 4
                         img(src='/images/4.png',style='width:90%')
-    section.slogan-section.margin-bottom.parallax-container.valign-wrapper
-        .container
-            .overlay
-                h1.center-align.slogan-description Forum
-        .parallax
-            img(src='/images/water.jpg', alt='Unsplashed background img 2')
+        
+            .row
+                a.m-auto.btn.waves-effect.waves-light.yellow.accent-4.center(href='/users')
+                            | 現在開始註冊會員，製作我的第一份問券！
+                            i.material-icons.right send
     .section.grey.lighten-3
-        .row.container
-            .col.s12.m10.offset-m1
-                h1.blue-text.text-darken-4.header Forum
         .container
+            hr
+            .row
+                center
+                    h1.teal-text.header  Forum
+            .row
+                p.grey-text.text-darken-3.lighten-3 
+                    |看看別人的問卷吧！
             .row
                 each i in form
                     .col-md-4
-                        .card.blue-grey.darken-1(onclick='location.href='+"'/message/"+i.router+"/detail'")
-                            .card-content.white-text
+                        .card.teal.lighten-2(onclick='location.href='+"'/message/"+i.router+"/detail'")
+                            .card-content
                                 .row
                                     span.card-title=i.title
-                                br
+                                hr
                                 .row
                                     p=i.description
+                                    
 
     
 

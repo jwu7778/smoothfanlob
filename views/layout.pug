@@ -50,7 +50,7 @@ html
             }
     nav.navbar.navbar-expand-sm.fixed-top.navbar-default.navbar-light
       a.navbar-brand(href='/')
-        img(src="/images/word.png",style='width:100px')
+        img(src='/images/word.png', style='width:100px')
       button.navbar-toggler(type='button', data-toggle='collapse', data-target='#navbarSupportedContent', aria-controls='navbarSupportedContent', aria-expanded='false', aria-label='Toggle navigation')
         span.navbar-toggler-icon
       #navbarSupportedContent.collapse.navbar-collapse
@@ -58,20 +58,13 @@ html
           li.nav-item.active
             a.nav-link.waves-effect.waves-light(href='/')
               | Home 
-              span.sr-only
-          li.nav-item
-            a.nav-link.waves-effect.waves-light(href='/#news') News
-          li.nav-item
-            a.nav-link.waves-effect.waves-light(href='/#intro') Introduction
           li.nav-item.dropdown
             a#navbarDropdownMenuLink.nav-link.dropdown-toggle.waves-effect.waves-light(data-toggle='dropdown', aria-haspopup='true', aria-expanded='false') Member
             .dropdown-menu.dropdown-info(aria-labelledby='navbarDropdownMenuLink')
-              a#in.dropdown-item.waves-effect.waves-light(href='/users') SingUp/SingIn
-              a#form.dropdown-item.waves-effect.waves-light(onclick='getuserid()') Add Form
-              a#out.dropdown-item.waves-effect.waves-light(onclick='singout()') SingOut
-        //form.form-inline
-          .md-form.my-0
-            input.form-control.mr-sm-2(type='text', placeholder='Search', aria-label='Search')
+              a#in.dropdown-item.waves-effect.waves-light(href='/users', style='display: block;') SingUp/SingIn
+              a#form.dropdown-item.waves-effect.waves-light(onclick='getuserid()', style='display: none;') Add Form
+              a#out.dropdown-item.waves-effect.waves-light(onclick='singout()', style='display: none;') SingOut
+    
     block page
     div(style='margin-top: 100px;')
       block content
@@ -112,7 +105,11 @@ html
 
             }
             function singout(){
-              document.cookie =''
+              var keys = document.cookie.match(/[^ =;]+(?=\=)/g);
+              if(keys) {
+                for(var i = keys.length; i--;)
+                  document.cookie = keys[i] + '=-1;expires=' + new Date(0).toUTCString()
+              }
               alert("singout success")
               window.location.replace("/")
             }
